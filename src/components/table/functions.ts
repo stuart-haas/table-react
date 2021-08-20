@@ -6,12 +6,10 @@ export function getValueByProperty(row: TableRowProps, column: TableColumnProps)
     const { property, value, transform } = column;
     const data = getDataByIndex(rowData, index);
     try {
-        if(value && typeof value === 'function') {
-            transform && transform(data, value, index);
-            return value(data, index);
-        }
-        if(value && typeof value !== 'function') {
-            transform && transform(data, value, index);
+        if(value) {
+            if(typeof value === 'function') {
+                return value(data, index);
+            }
             return value;
         }
         if(transform) {
