@@ -1,5 +1,6 @@
 import TableColumnProps, { AttributesCallback } from './contracts/TableColumnProps';
 import { TableRowProps } from './TableRow';
+import { TableRowActionProps } from './TableRowAction';
 
 export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
     const { data, index } = row;
@@ -31,6 +32,14 @@ export function getValue(data: any, property: string = '') {
 }
 
 export function getRowAttributes(row: TableRowProps) {
+    const { data, index, columns, attributes } = row;
+    if(attributes && typeof attributes === 'function') {
+        return attributes({ data, columns, index });
+    }
+    return attributes;
+}
+
+export function getRowActionAttributes(row: TableRowActionProps) {
     const { data, index, columns, attributes } = row;
     if(attributes && typeof attributes === 'function') {
         return attributes({ data, columns, index });

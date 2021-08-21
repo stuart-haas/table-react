@@ -67,7 +67,36 @@ function App() {
         return {
           className,
         };
-      }
+      },
+      actions: {
+        label: 'Actions',
+        attributes: {
+          style: {
+            textAlign: 'right',
+          },
+          className: 'fw-bold',
+        },
+        items: [
+          {
+            attributes: (attributes: TableData) => {
+              const { data, index } = attributes;
+              return {
+                className: 'bi bi-clipboard me-2',
+                role: 'button',
+                onClick: () => {
+                  console.log(index, data);
+                }
+              }
+            }
+          },
+          {
+            attributes: {
+              className: 'bi bi-trash-fill',
+              role: 'button',
+            }
+          },
+        ]
+      },
     },
     columns: [
       { label: 'Id', property: 'id', value: (value: TableData) => {

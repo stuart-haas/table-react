@@ -24,11 +24,20 @@ const Table = (props: TableProps) => {
                     {props.columns.map((column: TableColumnProps, index: number) => (
                         <TableHeaderCell key={index} {...column} />
                     ))}
+                    {props.rows?.actions && 
+                        <th {...getAttributes(props.rows?.actions?.attributes)}>{props.rows?.actions?.label}</th>
+                    }
                 </tr>
             </thead>
             <tbody {...getAttributes(props.body?.attributes)}>
-                {props.data?.map((data: any, index: number) => (
-                    <TableRow key={index} index={index} columns={props.columns} data={data} attributes={props.rows?.attributes} />
+                {props.data?.map((data: TableRowProps, index: number) => (
+                    <TableRow key={index} 
+                        index={index} 
+                        columns={props.columns} 
+                        data={data} 
+                        attributes={props.rows?.attributes} 
+                        actions={props.rows?.actions} 
+                    />
                 ))}
             </tbody>
         </table>
