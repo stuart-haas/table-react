@@ -1,6 +1,8 @@
-import TableColumnProps, { AttributesCallback } from './contracts/TableColumnProps';
-import { TableRowProps } from './TableRow';
-import { TableRowActionProps } from './TableRowAction';
+import { TableHeaderCellsProps } from '../contracts';
+import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
+import { TableHeaderCellProps } from '../TableHeaderCell';
+import { TableRowProps } from '../TableRow';
+import { TableRowActionProps } from '../TableRowAction';
 
 export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
     const { data, index } = row;
@@ -31,6 +33,33 @@ export function getValue(data: any, property?: string) {
             throw `Property ${property} not found in data ${JSON.stringify(data)}`;
         }
     }
+}
+
+export function getHeaderCellLabel(column: TableHeaderCellProps) {
+    const { label, type, property, rows, columns, data, attributes } = column;
+    if(label && typeof label === 'function') {
+        return label({ type, property, rows, columns, data, attributes });
+    }
+    return label;
+}
+
+export function getRowActionsLabel(column: TableHeaderCellsProps) {
+    const { rows, columns, data } = column;
+    if(rows?.actions?.label) {
+        const label = rows.actions.label;
+        if(label && typeof label === 'function') {
+            return label({ rows, columns, data });
+        }
+        return label;
+    }
+}
+
+export function getRowActionLabel(column: TableRowActionProps) {
+    const { label, columns, data, index, tag, attributes } = column;
+    if(label && typeof label === 'function') {
+        return label({ columns, data, index, tag, attributes });
+    }
+    return label;
 }
 
 export function getRowAttributes(row: TableRowProps) {

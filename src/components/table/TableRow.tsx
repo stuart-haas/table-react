@@ -1,9 +1,9 @@
 import React from 'react';
-import { TableDataCell } from '.';
 import { TableColumnProps } from './contracts';
 import { AttributesCallback } from './contracts/TableColumnProps';
-import { getAttributes, getRowAttributes } from './functions';
-import TableRowAction, { TableRowActionProps, TableRowActionsProps } from './TableRowAction';
+import { getAttributes, getRowAttributes } from './helpers/functions';
+import { TableRowActionsProps } from './TableRowAction';
+import * as Render from './helpers/render';
 
 export interface TableRowProps {
     index?: number;
@@ -11,32 +11,20 @@ export interface TableRowProps {
     data?: any;
     attributes?: object|AttributesCallback;
     actions?: TableRowActionsProps;
+    rows?: TableRowProps;
 }
 
 const TableRow = (props: TableRowProps) => {
     return (
         <tr {...getRowAttributes(props)}>
-            {props.columns && props.columns.map((column: TableColumnProps, index: number ) => (
-                <TableDataCell key={index} row={props} column={column} />
-            ))}
-            {renderRowActions()}
+            {Render.DataCells(props)}
+            {props.actions && 
+                <td {...getAttributes(props.actions?.attributes)}>
+                    {Render.RowActions(props)}
+                </td>
+            }
         </tr>
     );
-
-    function renderRowActions() {
-        if(props.actions) {
-            return (
-                <td {...getAttributes(props.actions?.attributes)}>
-                    {props.actions && props.actions.items.map((action: TableRowActionProps, index: number) => {
-                        const actionProps = { ...action, index: props.index, data: props.data, columns: props.columns };
-                        return (
-                            <TableRowAction key={index} {...actionProps} />
-                        );
-                    })}
-                </td>
-            )
-        }
-    }
 }
 
 export default TableRow;

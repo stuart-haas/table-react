@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableColumnProps } from './contracts';
 import { TableRowProps } from './TableRow';
-import { getDataCellAttributes, getValueByProperty } from './functions';
+import { getDataCellAttributes, getValueByProperty } from './helpers/functions';
 
 export interface TableDataCellProps {
     row: TableRowProps;

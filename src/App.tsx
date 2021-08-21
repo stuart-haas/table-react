@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Table } from 'components/table';
 import { TableProps } from 'components/table/Table';
-import { TableData } from 'components/table/contracts/TableColumnProps';
+import { LabelCallback, TableData, TableLabelData } from 'components/table/contracts/TableColumnProps';
 
 function App() {
 
@@ -49,10 +49,12 @@ function App() {
         className: 'table',
       };
     },
-    headerRow: {
-      attributes: {
-        className: 'bg-secondary text-white',
-      },
+    header: {
+      row: {
+        attributes: {
+          className: 'bg-secondary text-white',
+        },
+      }
     },
     rows: {
       attributes: (value: TableData) => {
@@ -72,7 +74,9 @@ function App() {
         };
       },
       actions: {
-        label: 'Actions',
+        label: () => {
+          return 'Actions';
+        },
         attributes: {
           style: {
             textAlign: 'right',
@@ -86,6 +90,9 @@ function App() {
                 className: 'bi bi-clipboard me-2',
                 role: 'button',
               }
+            },
+            label: (label: TableLabelData) => {
+              console.log(label);
             }
           },
           {
@@ -124,7 +131,9 @@ function App() {
           }
         }
       },
-      { label: 'Price', property: 'price', columnAttributes: {
+      { label: (label: TableLabelData) => {
+        return 'Price';
+      }, property: 'price', columnAttributes: {
           style: {
             textAlign: 'right',
           },

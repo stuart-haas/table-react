@@ -1,11 +1,13 @@
 import React from 'react';
-import { TableColumnProps } from './contracts';
-import { getHeaderCellAttributes } from './functions';
+import { TableColumnProps, TableHeaderCellsProps } from './contracts';
+import { getHeaderCellAttributes, getHeaderCellLabel } from './helpers/functions';
 
-const TableHeaderCell = (props: TableColumnProps) => {
+export type TableHeaderCellProps = TableColumnProps & TableHeaderCellsProps;
+
+const TableHeaderCell = (props: TableHeaderCellProps) => {
     return (
         <th {...getHeaderCellAttributes(props)}>
-            {props.label}
+            {getHeaderCellLabel(props)}
         </th>
     );
 };

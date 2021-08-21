@@ -1,3 +1,5 @@
+import { TableRowProps } from "../TableRow";
+
 export interface ITableData {};
 
 export interface TableData extends ITableData {
@@ -5,6 +7,17 @@ export interface TableData extends ITableData {
     value: any;
     index?: number;
     columns?: Array<TableColumnProps>;
+};
+
+export interface TableLabelData extends ITableData {
+    type?: string;
+    property?: string;
+    columns?: Array<TableColumnProps>;
+    rows?: TableRowProps;
+    data?: any;
+    index?: number;
+    attributes?: object|AttributesCallback;
+    tag?: string;
 };
 
 export interface TransformCallback {
@@ -18,13 +31,16 @@ export interface AttributesCallback {
     (callback: ITableData): any;
 }
 
+export interface LabelCallback {
+    (callback: TableLabelData): any;
+}
 export interface TableAttributes {
     attributes?: object|AttributesCallback;
 }
 interface DefaultTableColumnProps {
-    label?: string;
     type?: string;
     property?: string;
+    label?: string|LabelCallback;
     transform?: TransformCallback;
     value?: string|number|ValueCallback;
     dataAttributes?: object|AttributesCallback;
