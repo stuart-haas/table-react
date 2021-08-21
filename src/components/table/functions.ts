@@ -22,12 +22,14 @@ export function getValueByProperty(row: TableRowProps, column: TableColumnProps)
     }
 }
 
-export function getValue(data: any, property: string = '') {
-    if(data[property]) {
+export function getValue(data: any, property?: string) {
+    if(property && data[property]) {
         return data[property];
     } else {
-        // eslint-disable-next-line no-throw-literal
-        throw `Property ${property} not found in data ${JSON.stringify(data)}`;
+        if(typeof property !== 'undefined') {
+            // eslint-disable-next-line no-throw-literal
+            throw `Property ${property} not found in data ${JSON.stringify(data)}`;
+        }
     }
 }
 

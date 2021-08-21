@@ -22,7 +22,8 @@ export interface TableAttributes {
     attributes?: object|AttributesCallback;
 }
 interface DefaultTableColumnProps {
-    label: string;
+    label?: string;
+    type?: string;
     property?: string;
     transform?: TransformCallback;
     value?: string|number|ValueCallback;

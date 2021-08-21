@@ -66,6 +66,9 @@ function App() {
         }
         return {
           className,
+          onClick: () => {
+            console.log(index, data);
+          }
         };
       },
       actions: {
@@ -79,13 +82,9 @@ function App() {
         items: [
           {
             attributes: (attributes: TableData) => {
-              const { data, index } = attributes;
               return {
                 className: 'bi bi-clipboard me-2',
                 role: 'button',
-                onClick: () => {
-                  console.log(index, data);
-                }
               }
             }
           },
@@ -99,11 +98,14 @@ function App() {
       },
     },
     columns: [
+      {
+        type: 'checkbox',
+      },
       { label: 'Id', property: 'id', value: (value: TableData) => {
           const { index } = value;
           return index! + 1;
         },
-},
+      },
       { label: 'Name', property: 'name', dataAttributes: (attributes: TableData) => {
           if(attributes.value === 'Tomato') {
             return {
