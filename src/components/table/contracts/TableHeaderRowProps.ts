@@ -1,5 +1,5 @@
 import { AttributesCallback } from "./TableColumnProps";
 
-export default interface TableHeaderProps {
+export default interface TableHeaderRowProps {
     attributes?: object|AttributesCallback;
 }

@@ -30,14 +30,30 @@ export function getValue(data: any, property: string = '') {
     }
 }
 
-export function getColumnAttributes(row: TableRowProps, column: TableColumnProps) {
-    const { data, index } = row;
-    const { attributes } = column;
+export function getRowAttributes(row: TableRowProps) {
+    const { data, index, columns, attributes } = row;
     if(attributes && typeof attributes === 'function') {
-        const value = getValueByProperty(row, column);
-        return attributes({ data, value, index });
+        return attributes({ data, columns, index });
     }
     return attributes;
+}
+
+export function getHeaderCellAttributes(column: TableColumnProps) {
+    const { columnAttributes } = column;
+    if(columnAttributes && typeof columnAttributes === 'function') {
+        return columnAttributes({});
+    }
+    return columnAttributes;
+}
+
+export function getDataCellAttributes(row: TableRowProps, column: TableColumnProps) {
+    const { data, index } = row;
+    const { dataAttributes } = column;
+    if(dataAttributes && typeof dataAttributes === 'function') {
+        const value = getValueByProperty(row, column);
+        return dataAttributes({ data, value, index });
+    }
+    return dataAttributes;
 }
 
 export function getAttributes(attributes?: object|AttributesCallback) {
