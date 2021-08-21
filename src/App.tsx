@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Table } from 'components/table';
 import { TableProps } from 'components/table/Table';
-import { ColumnAttributesData } from 'components/table/contracts/TableColumnProps';
+import { TableData } from 'components/table/contracts/TableColumnProps';
 
 function App() {
 
@@ -55,7 +55,7 @@ function App() {
       },
     },
     rows: {
-      attributes: (value: ColumnAttributesData) => {
+      attributes: (value: TableData) => {
         const { data, index } = value;
         let className = '';
         if(index! % 2 === 1) {
@@ -70,18 +70,12 @@ function App() {
       }
     },
     columns: [
-      {
-        label: 'Id',
-        property: 'id',
-        value: (value: ColumnAttributesData) => {
+      { label: 'Id', property: 'id', value: (value: TableData) => {
           const { index } = value;
           return index! + 1;
         },
-      },
-      {
-        label: 'Name',
-        property: 'name',
-        dataAttributes: (attributes: ColumnAttributesData) => {
+},
+      { label: 'Name', property: 'name', dataAttributes: (attributes: TableData) => {
           if(attributes.value === 'Tomato') {
             return {
               className: 'fw-bold',
@@ -89,10 +83,7 @@ function App() {
           }
         },
       },
-      {
-        label: 'Description',
-        property: 'description',
-        dataAttributes: (attributes: ColumnAttributesData) => {
+      { label: 'Description', property: 'description', dataAttributes: (attributes: TableData) => {
           const { data } = attributes;
           const { name } = data;
           if(name === 'Pumpkin') {
@@ -102,20 +93,15 @@ function App() {
           }
         }
       },
-      {
-        label: 'Price',
-        property: 'price',
-        columnAttributes: {
+      { label: 'Price', property: 'price', columnAttributes: {
           style: {
             textAlign: 'right',
           },
-        },
-        dataAttributes: {
+        }, dataAttributes: {
           style: {
             textAlign: 'right',
           },
-        },
-        transform: (transform: ColumnAttributesData) => {
+        }, transform: (transform: TableData) => {
           return `$${transform.value}`;
         },
       },

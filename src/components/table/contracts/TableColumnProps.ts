@@ -1,23 +1,21 @@
-export interface AttributesData {};
+export interface ITableData {};
 
-export interface ColumnAttributesData extends AttributesData {
+export interface TableData extends ITableData {
     data: any;
     value: any;
     index?: number;
     columns?: Array<TableColumnProps>;
 };
 
-export interface TableAttributesData extends AttributesData {};
-
 export interface TransformCallback {
-    (callback: ColumnAttributesData): any;
+    (callback: TableData): any;
 }
 
 export interface ValueCallback {
-    (callback: ColumnAttributesData): any;
+    (callback: TableData): any;
 }
 export interface AttributesCallback {
-    (callback: AttributesData): any;
+    (callback: ITableData): any;
 }
 
 export interface TableAttributes {
