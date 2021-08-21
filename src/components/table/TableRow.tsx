@@ -1,6 +1,6 @@
 import React from 'react';
+import { TableDataCell } from '.';
 import { TableColumnProps } from './contracts';
-import { getAttributes, getClassName, getStyle, getValueByProperty } from './functions';
 
 export interface TableRowProps {
     index: number;
@@ -11,14 +11,8 @@ export interface TableRowProps {
 const TableRow = (props: TableRowProps) => {
     return (
         <tr>
-            {props.columns.map((e: TableColumnProps, index: number ) => (
-                <td key={index} 
-                    style={getStyle(props, e)} 
-                    className={getClassName(props, e)} 
-                    {...getAttributes(props, e)}
-                >
-                    {getValueByProperty(props, e)}
-                </td>
+            {props.columns.map((column: TableColumnProps, index: number ) => (
+                <TableDataCell key={index} row={props} column={column} />
             ))}
         </tr>
     )

@@ -1,29 +1,24 @@
-import TableColumnProps from './contracts/TableColumnProps';
+import TableColumnProps, { AttributesCallback } from './contracts/TableColumnProps';
 import { TableRowProps } from './TableRow';
 
 export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
-    const { data: rowData, index } = row;
+    const { data, index } = row;
     const { property, value, transform } = column;
-    const data = getDataByIndex(rowData, index);
     try {
         if(value) {
             if(typeof value === 'function') {
-                return value(data, index);
+                return value({ data, value, index });
             }
             return value;
         }
         if(transform) {
             const value = getValue(data, property);
-            return transform(data, value, index);
+            return transform({ data, value, index});
         }
         return getValue(data, property);
     } catch(e) {
         console.error(e);
     }
-}
-
-function getDataByIndex(data: any, index: number) {
-    return data[index];
 }
 
 export function getValue(data: any, property: string = '') {
@@ -35,32 +30,19 @@ export function getValue(data: any, property: string = '') {
     }
 }
 
-export function getStyle(row: TableRowProps, column: TableColumnProps) {
-    const { data, index } = row;
-    const { style } = column;
-    if(style && typeof style === 'function') {
-        const value = getValueByProperty(row, column);
-        return style(data, value, index);
-    }
-    return style;
-}
-
-export function getClassName(row: TableRowProps, column: TableColumnProps) {
-    const { data, index } = row;
-    const { className } = column;
-    if(className && typeof className === 'function') {
-        const value = getValueByProperty(row, column);
-        return className(data, value, index);
-    }
-    return className;
-}
-
-export function getAttributes(row: TableRowProps, column: TableColumnProps) {
+export function getColumnAttributes(row: TableRowProps, column: TableColumnProps) {
     const { data, index } = row;
     const { attributes } = column;
     if(attributes && typeof attributes === 'function') {
         const value = getValueByProperty(row, column);
-        return attributes(data, value, index);
+        return attributes({ data, value, index });
+    }
+    return attributes;
+}
+
+export function getAttributes(attributes?: object|AttributesCallback) {
+    if(attributes && typeof attributes === 'function') {
+        return attributes({});
     }
     return attributes;
 }

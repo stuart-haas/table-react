@@ -1,30 +1,31 @@
 import React from 'react';
 import { TableColumnProps, TableHeaderProps } from './contracts';
+import { TableAttributes } from './contracts/TableColumnProps';
+import { getAttributes } from './functions';
 import TableHeaderCell from './TableHeaderCell';
-import TableRow, { TableRowProps } from './TableRow';
+import TableRow from './TableRow';
 
-export interface TableProps {
-    className?: string;
-    style?: object;
-    attributes?: object;
-    header: TableHeaderProps;
+interface DefaultTableProps {
+    header?: TableHeaderProps;
     columns: Array<TableColumnProps>;
     data?: Array<any>;
 }
 
+export type TableProps = DefaultTableProps & TableAttributes;
+
 const Table = (props: TableProps) => {
     return (
-        <table className={props.className} style={props.style} {...props.attributes}>
+        <table {...getAttributes(props.attributes)}>
             <thead>
                 <tr>
-                    {props.columns.map((e: TableColumnProps, index: number) => (
-                        <TableHeaderCell key={index} { ...e } />
+                    {props.columns.map((props: TableColumnProps, index: number) => (
+                        <TableHeaderCell key={index} { ...props } />
                     ))}
                 </tr>
             </thead>
             <tbody>
-                {props.data?.map((e: TableRowProps, index: number) => (
-                    <TableRow key={index} index={index} columns={props.columns} data={props.data} />
+                {props.data?.map((data: any, index: number) => (
+                    <TableRow key={index} index={index} columns={props.columns} data={data} />
                 ))}
             </tbody>
         </table>

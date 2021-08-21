@@ -2,42 +2,49 @@ import React from 'react';
 import './App.css';
 import { Table } from 'components/table';
 import { TableProps } from 'components/table/Table';
+import { ColumnAttributesData } from 'components/table/contracts/TableColumnProps';
 
 function App() {
   const tableProps: TableProps = {
-    className: 'table',
-    header: {
-      
+    attributes: () => {
+      return {
+        className: 'table',
+      };
     },
     columns: [
       {
         label: 'Id',
         property: 'id',
-        value: (data: any, index: number) => {
+        value: (value: ColumnAttributesData) => {
+          const { index } = value;
           return index + 1;
         },
       },
       {
         label: 'Name',
         property: 'name',
-        attributes: (data: any, value: any, index: number) => {
-          if(value === 'Apple') {
+        attributes: (attributes: ColumnAttributesData) => {
+          if(attributes.value === 'Tomato') {
             return {
-              'data-name': value.toLowerCase(),
+              className: 'fw-bold',
             };
           }
         },
-        className: (data: any, value: any, index: number) => {
-          if(value === 'Tomato') {
-            return 'fw-bold';
-          }
-        }
       },
       {
         label: 'Description',
         property: 'description',
-        transform: (data: any, value: any, index: number) => {
-          return value;
+        transform: (transform: ColumnAttributesData) => {
+          return transform.value;
+        },
+        attributes: (attributes: ColumnAttributesData) => {
+          const { data } = attributes;
+          const { name } = data;
+          if(name === 'Pumpkin') {
+            return {
+              className: 'fw-bold',
+            };
+          }
         }
       },
       {

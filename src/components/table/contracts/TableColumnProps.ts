@@ -1,29 +1,35 @@
+export interface AttributesData {};
+
+export interface ColumnAttributesData extends AttributesData {
+    data: any;
+    value: any;
+    index: number;
+};
+
+export interface TableAttributesData extends AttributesData {};
+
 export interface TransformCallback {
-    (data: any, value: any, index: number): any;
+    (callback: ColumnAttributesData): any;
 }
 
 export interface ValueCallback {
-    (data: any, index: number): any;
+    (callback: ColumnAttributesData): any;
 }
-
-export interface ClassCallback {
-    (data: any, value: any, index: number): any;
-}
-
-export interface StyleCallback {
-    (data: any, value: any, index: number): any;
-}
-
 export interface AttributesCallback {
-    (data: any, value: any, index: number): any;
+    (callback: AttributesData): any;
 }
 
-export default interface TableColumnProps {
+export interface TableAttributes {
+    attributes?: object|AttributesCallback;
+}
+
+interface DefaultTableColumnProps {
     label: string;
     property?: string;
     transform?: TransformCallback;
     value?: string|number|ValueCallback;
-    style?: object|StyleCallback;
-    className?: string|ClassCallback;
-    attributes?: object|AttributesCallback;
 }
+
+type TableColumnProps = DefaultTableColumnProps & TableAttributes;
+
+export default TableColumnProps;
