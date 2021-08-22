@@ -5,6 +5,7 @@ import TableRow, { TableRowProps } from "../TableRow";
 import TableDataCell from "../TableDataCell";
 import Checkbox from "components/form/Checkbox";
 import SelectedContext from "components/table/context/SelectedContext";
+import PrimaryKeyContext from "../context/PrimaryKeyContext";
 
 export function HeaderCells(props: TableHeaderCellsProps) {
   return props.columns.map((column: TableColumnProps, index: number) => {
@@ -48,10 +49,14 @@ interface BatchRowSelectProps {
 }
 
 export function BatchRowSelect(props: BatchRowSelectProps) {
+  const primaryKey = useContext(PrimaryKeyContext);
   const { ref, batchSelectChange, data } = props;
   return (
     <td>
-      <Checkbox ref={ref} onChange={(e: any) => batchSelectChange(e, data)} />
+      <Checkbox ref={ref} onChange={(e: any) => {
+        const mappedData = data.map((item: any) => item[primaryKey!]);
+        batchSelectChange(e, mappedData);
+      }} />
     </td>
   );
 }
@@ -62,13 +67,14 @@ interface RowSelectProps {
 }
 
 export function RowSelect(props: RowSelectProps) {
+  const primaryKey = useContext(PrimaryKeyContext);
   const selected = useContext(SelectedContext);
   const { data, selectChange } = props;
   return (
     <td>
       <Checkbox
-        checked={selected.find((item: any) => item.id === data.id) || false}
-        onChange={(e: any) => selectChange && selectChange(e, data)}
+        checked={selected.find((item: any) => item === data[primaryKey!]) || false}
+        onChange={(e: any) => selectChange && selectChange(e, data[primaryKey!])}
       />
     </td>
   );

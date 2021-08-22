@@ -9,8 +9,10 @@ import { getAttributes } from "./helpers/functions";
 import * as Render from "./helpers/render";
 import { TableRowProps } from "./TableRow";
 import SelectedContext from "./context/SelectedContext";
+import PrimaryKeyContext from "./context/PrimaryKeyContext";
 
 interface DefaultTableProps {
+  primaryKey?: string;
   header?: TableHeaderProps;
   body?: TableBodyProps;
   columns: Array<TableColumnProps>;
@@ -43,7 +45,7 @@ const Table = (props: TableProps) => {
       setSelected(
         [...selected, ...data].filter(
           (item: any, index: number, array: any) =>
-            array.findIndex((t: any) => t.id === item.id) === index
+            array.findIndex((t: any) => t === item) === index
         )
       );
     } else {
@@ -51,36 +53,42 @@ const Table = (props: TableProps) => {
     }
   }
 
-  function handlSelectChange(e: any, data?: any) {
+  function handlSelectChange(e: any, id?: any) {
     if (e.target.checked) {
-      setSelected([...selected, { ...data }]);
+      setSelected([...selected, id]);
     } else {
-      setSelected(selected.filter((item: any) => item.id !== data.id));
+      setSelected(selected.filter((item: any) => item !== id));
     }
   }
 
   return (
-    <SelectedContext.Provider value={selected}>
-      <table {...getAttributes(props.attributes)}>
-        <thead {...getAttributes(props.header?.attributes)}>
-          <tr {...getAttributes(props.header?.row?.attributes)}>
-            {Render.BatchRowSelect({
-              data: props.data,
-              ref: batchSelectRef,
-              batchSelectChange: handleBatchSelectChange,
-            })}
-            {Render.HeaderCells(props)}
-          </tr>
-        </thead>
-        <tbody {...getAttributes(props.body?.attributes)}>
-          {Render.Rows({
+    <PrimaryKeyContext.Provider value={props.primaryKey}>
+      <SelectedContext.Provider value={selected}>
+        <table {...getAttributes(props.attributes)}>
+          <thead {...getAttributes(props.header?.attributes)}>
+            <tr {...getAttributes(props.header?.row?.attributes)}>
+              {Render.BatchRowSelect({
+                data: props.data,
+                ref: batchSelectRef,
+                batchSelectChange: handleBatchSelectChange,
+              })}
+              {Render.HeaderCells(props)}
+            </tr>
+          </thead>
+          <tbody {...getAttributes(props.body?.attributes)}>
+            {Render.Rows({
               ...props,
               selectChange: handlSelectChange,
-          })}
-        </tbody>
-      </table>
-    </SelectedContext.Provider>
+            })}
+          </tbody>
+        </table>
+      </SelectedContext.Provider>
+    </PrimaryKeyContext.Provider>
   );
+};
+
+Table.defaultProps = {
+  primaryKey: "id",
 };
 
 export default Table;
