@@ -49,14 +49,20 @@ interface BatchRowSelectProps {
 }
 
 export function BatchRowSelect(props: BatchRowSelectProps) {
-  const primaryKey = useContext(PrimaryKeyContext);
   const { ref, batchSelectChange, data } = props;
   return (
     <td>
-      <Checkbox ref={ref} onChange={(e: any) => {
-        const mappedData = data.map((item: any) => item[primaryKey!]);
-        batchSelectChange(e, mappedData);
-      }} />
+      <PrimaryKeyContext.Consumer>
+        {(value) => (
+          <Checkbox
+            ref={ref}
+            onChange={(e: any) => {
+              const mappedData = data.map((item: any) => item[value!]);
+              batchSelectChange(e, mappedData);
+            }}
+          />
+        )}
+      </PrimaryKeyContext.Consumer>
     </td>
   );
 }
@@ -67,15 +73,20 @@ interface RowSelectProps {
 }
 
 export function RowSelect(props: RowSelectProps) {
-  const primaryKey = useContext(PrimaryKeyContext);
   const selected = useContext(SelectedContext);
   const { data, selectChange } = props;
   return (
     <td>
-      <Checkbox
-        checked={selected.find((item: any) => item === data[primaryKey!]) || false}
-        onChange={(e: any) => selectChange && selectChange(e, data[primaryKey!])}
-      />
+      <PrimaryKeyContext.Consumer>
+        {(value) => (
+          <Checkbox
+            checked={
+              selected.find((item: any) => item === data[value!]) || false
+            }
+            onChange={(e: any) => selectChange && selectChange(e, data[value!])}
+          />
+        )}
+      </PrimaryKeyContext.Consumer>
     </td>
   );
 }

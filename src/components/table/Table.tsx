@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import {
   TableBodyProps,
   TableColumnProps,
@@ -18,13 +18,19 @@ interface DefaultTableProps {
   columns: Array<TableColumnProps>;
   rows?: TableRowProps;
   data?: Array<any>;
+  selected?: Array<any>;
 }
 
 export type TableProps = DefaultTableProps & TableAttributes;
 
 const Table = (props: TableProps) => {
   const [selected, setSelected] = useState<any>([]);
+  const [primaryKey, setPrimaryKey] = useState<any>([]);
   const batchSelectRef = createRef<any>();
+
+  useEffect(() => {
+    setPrimaryKey(props.primaryKey);
+  }, [props.primaryKey]);
 
   useEffect(() => {
     if (selected.length && selected.length !== props.data!.length) {
@@ -62,7 +68,7 @@ const Table = (props: TableProps) => {
   }
 
   return (
-    <PrimaryKeyContext.Provider value={props.primaryKey}>
+    <PrimaryKeyContext.Provider value={primaryKey}>
       <SelectedContext.Provider value={selected}>
         <table {...getAttributes(props.attributes)}>
           <thead {...getAttributes(props.header?.attributes)}>
@@ -89,6 +95,7 @@ const Table = (props: TableProps) => {
 
 Table.defaultProps = {
   primaryKey: "id",
+  selected: [],
 };
 
 export default Table;

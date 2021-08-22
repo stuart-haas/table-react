@@ -6,7 +6,6 @@ import {
 } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
 import SelectedContext from "components/table/context/SelectedContext";
-import Checkbox from "components/form/Checkbox";
 
 const data = [
   {
@@ -48,8 +47,8 @@ const data = [
 ];
 
 const BaseTable = () => {
-
   const tableProps: TableProps = {
+    primaryKey: 'name',
     attributes: () => {
       return {
         className: "table",
@@ -76,17 +75,6 @@ const BaseTable = () => {
     },
     columns: [
       {
-        label: (t: TableLabelData) => {
-          return (
-            <SelectedContext.Consumer>
-              {(value) => (
-                <Checkbox />
-              )}
-            </SelectedContext.Consumer>
-          )
-        },
-      },
-      {
         label: "Id",
         property: "id",
       },
@@ -103,9 +91,11 @@ const BaseTable = () => {
         transform: (t: TableData) => {
           const { value } = t;
           return (
-            <button type="button" className="btn btn-link">{value}</button>
+            <button type="button" className="btn btn-link">
+              {value}
+            </button>
           );
-        }
+        },
       },
       {
         label: "Description",
@@ -141,7 +131,13 @@ const BaseTable = () => {
       },
       {
         label: (t: TableLabelData) => {
-          return '';
+          return (
+            <SelectedContext.Consumer>
+              {(value) =>
+                value.length ? <span>Actions</span> : <Fragment></Fragment>
+              }
+            </SelectedContext.Consumer>
+          );
         },
         columnAttributes: {
           style: {
@@ -167,9 +163,7 @@ const BaseTable = () => {
     data,
   };
 
-  return (
-    <Table {...tableProps} />
-  );
-}
+  return <Table {...tableProps} />;
+};
 
 export default BaseTable;
