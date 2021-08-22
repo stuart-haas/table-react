@@ -1,43 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import { Table } from 'components/table';
-import { TableProps } from 'components/table/Table';
-import { LabelCallback, TableData, TableLabelData } from 'components/table/contracts/TableColumnProps';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { Table } from "components/table";
+import { TableProps } from "components/table/Table";
+import {
+  LabelCallback,
+  TableData,
+  TableLabelData,
+} from "components/table/contracts/TableColumnProps";
 
 function App() {
-
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     setData([
       {
-        name: 'Pumpkin',
-        description: 'A large gourd',
+        name: "Pumpkin",
+        description: "A large gourd",
         price: 10,
       },
       {
-        name: 'Tomato',
-        description: 'Not mistaken for a vegetable',
+        name: "Tomato",
+        description: "Not mistaken for a vegetable",
         price: 5,
       },
       {
-        name: 'Apple',
-        description: 'Watch out for worms',
+        name: "Apple",
+        description: "Watch out for worms",
         price: 3,
       },
       {
-        name: 'Potato',
-        description: 'Go Irish',
+        name: "Potato",
+        description: "Go Irish",
         price: 4,
       },
       {
-        name: 'Onion',
+        name: "Onion",
         description: "Don't cry",
         price: 2,
       },
       {
-        name: 'Watermelon',
-        description: 'Juicy',
+        name: "Watermelon",
+        description: "Juicy",
         price: 7,
       },
     ]);
@@ -46,112 +49,126 @@ function App() {
   const tableProps: TableProps = {
     attributes: () => {
       return {
-        className: 'table',
+        className: "table",
       };
     },
     header: {
       row: {
         attributes: {
-          className: 'bg-secondary text-white',
+          className: "bg-secondary text-white",
         },
-      }
+      },
     },
     rows: {
       attributes: (value: TableData) => {
         const { data, index } = value;
-        let className = '';
-        if(index! % 2 === 1) {
-          className = className + ' bg-light';
+        let className = "";
+        if (index! % 2 === 1) {
+          className = className + " bg-light";
         }
-        if(data.name === 'Onion') {
-          className = className + ' bg-danger text-white';
+        if (data.name === "Onion") {
+          className = className + " bg-danger text-white";
         }
         return {
           className,
           onClick: () => {
             console.log(index, data);
-          }
+          },
         };
       },
       actions: {
         label: () => {
-          return 'Actions';
+          return "Actions";
         },
         attributes: {
           style: {
-            textAlign: 'right',
+            textAlign: "right",
           },
-          className: 'fw-bold',
+          className: "fw-bold",
         },
         items: [
           {
             attributes: (attributes: TableData) => {
               return {
-                className: 'bi bi-clipboard me-2',
-                role: 'button',
-              }
+                className: "bi bi-clipboard me-2",
+                role: "button",
+              };
             },
             label: (label: TableLabelData) => {
               console.log(label);
-            }
+            },
           },
           {
             attributes: {
-              className: 'bi bi-trash-fill',
-              role: 'button',
-            }
+              className: "bi bi-trash-fill",
+              role: "button",
+            },
           },
-        ]
+        ],
       },
     },
     columns: [
       {
-        type: 'checkbox',
+        type: "checkbox",
       },
-      { label: 'Id', property: 'id', value: (value: TableData) => {
+      {
+        label: "Id",
+        property: "id",
+        value: (value: TableData) => {
           const { index } = value;
           return index! + 1;
         },
       },
-      { label: 'Name', property: 'name', dataAttributes: (attributes: TableData) => {
-          if(attributes.value === 'Tomato') {
+      {
+        label: "Name",
+        property: "name",
+        dataAttributes: (attributes: TableData) => {
+          if (attributes.value === "Tomato") {
             return {
-              className: 'fw-bold',
+              className: "fw-bold",
             };
           }
         },
       },
-      { label: 'Description', property: 'description', dataAttributes: (attributes: TableData) => {
+      {
+        label: "Description",
+        property: "description",
+        dataAttributes: (attributes: TableData) => {
           const { data } = attributes;
           const { name } = data;
-          if(name === 'Pumpkin') {
+          if (name === "Pumpkin") {
             return {
-              className: 'fw-bold',
+              className: "fw-bold",
             };
           }
-        }
+        },
       },
-      { label: (label: TableLabelData) => {
-        return 'Price';
-      }, property: 'price', columnAttributes: {
+      {
+        label: (label: TableLabelData) => {
+          return "Price";
+        },
+        property: "price",
+        columnAttributes: {
           style: {
-            textAlign: 'right',
+            textAlign: "right",
           },
-        }, dataAttributes: {
+        },
+        dataAttributes: {
           style: {
-            textAlign: 'right',
+            textAlign: "right",
           },
-        }, transform: (transform: TableData) => {
+        },
+        transform: (transform: TableData) => {
           return `$${transform.value}`;
         },
       },
     ],
-    data
+    data,
   };
 
   return (
     <div className="container mt-4">
-      <Table {... tableProps} />
+      <Table {...tableProps} />
     </div>
   );
 }

@@ -3,19 +3,16 @@ import { TableRowProps } from "../TableRow";
 export interface ITableData {};
 
 export interface TableData extends ITableData {
-    data: any;
-    value: any;
+    data?: any;
+    value?: any;
     index?: number;
     columns?: Array<TableColumnProps>;
 };
 
-export interface TableLabelData extends ITableData {
+export interface TableLabelData extends TableData {
     type?: string;
     property?: string;
-    columns?: Array<TableColumnProps>;
     rows?: TableRowProps;
-    data?: any;
-    index?: number;
     attributes?: object|AttributesCallback;
     tag?: string;
 };

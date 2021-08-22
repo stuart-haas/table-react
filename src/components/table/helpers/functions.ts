@@ -5,100 +5,100 @@ import { TableRowProps } from '../TableRow';
 import { TableRowActionProps } from '../TableRowAction';
 
 export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
-    const { data, index } = row;
-    const { property, value, transform } = column;
-    try {
-        if(value) {
-            if(typeof value === 'function') {
-                return value({ data, value, index });
-            }
-            return value;
-        }
-        if(transform) {
-            const value = getValue(data, property);
-            return transform({ data, value, index});
-        }
-        return getValue(data, property);
-    } catch(e) {
-        console.error(e);
+  const { data, index } = row;
+  const { property, value, transform } = column;
+  try {
+    if (value) {
+      if (typeof value === 'function') {
+        return value({ data, value, index });
+      }
+      return value;
     }
+    if (transform) {
+      const value = getValue(data, property);
+      return transform({ data, value, index });
+    }
+    return getValue(data, property);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export function getValue(data: any, property?: string) {
-    if(property && data[property]) {
-        return data[property];
-    } else {
-        if(typeof property !== 'undefined') {
-            // eslint-disable-next-line no-throw-literal
-            throw `Property ${property} not found in data ${JSON.stringify(data)}`;
-        }
+  if (property && data[property]) {
+    return data[property];
+  } else {
+    if (typeof property !== 'undefined') {
+      // eslint-disable-next-line no-throw-literal
+      throw `Property ${property} not found in data ${JSON.stringify(data)}`;
     }
+  }
 }
 
 export function getHeaderCellLabel(column: TableHeaderCellProps) {
-    const { label, type, property, rows, columns, data, attributes } = column;
-    if(label && typeof label === 'function') {
-        return label({ type, property, rows, columns, data, attributes });
-    }
-    return label;
+  const { label, type, property, rows, columns, data, attributes } = column;
+  if (label && typeof label === 'function') {
+    return label({ type, property, rows, columns, data, attributes });
+  }
+  return label;
 }
 
 export function getRowActionsLabel(column: TableHeaderCellsProps) {
-    const { rows, columns, data } = column;
-    if(rows?.actions?.label) {
-        const label = rows.actions.label;
-        if(label && typeof label === 'function') {
-            return label({ rows, columns, data });
-        }
-        return label;
+  const { rows, columns, data } = column;
+  if (rows?.actions?.label) {
+    const label = rows.actions.label;
+    if (label && typeof label === 'function') {
+      return label({ rows, columns, data });
     }
+    return label;
+  }
 }
 
 export function getRowActionLabel(column: TableRowActionProps) {
-    const { label, columns, data, index, tag, attributes } = column;
-    if(label && typeof label === 'function') {
-        return label({ columns, data, index, tag, attributes });
-    }
-    return label;
+  const { label, columns, data, index, tag, attributes } = column;
+  if (label && typeof label === 'function') {
+    return label({ columns, data, index, tag, attributes });
+  }
+  return label;
 }
 
 export function getRowAttributes(row: TableRowProps) {
-    const { data, index, columns, attributes } = row;
-    if(attributes && typeof attributes === 'function') {
-        return attributes({ data, columns, index });
-    }
-    return attributes;
+  const { data, index, columns, attributes } = row;
+  if (attributes && typeof attributes === 'function') {
+    return attributes({ data, columns, index });
+  }
+  return attributes;
 }
 
 export function getRowActionAttributes(row: TableRowActionProps) {
-    const { data, index, columns, attributes } = row;
-    if(attributes && typeof attributes === 'function') {
-        return attributes({ data, columns, index });
-    }
-    return attributes;
+  const { data, index, columns, attributes } = row;
+  if (attributes && typeof attributes === 'function') {
+    return attributes({ data, columns, index });
+  }
+  return attributes;
 }
 
 export function getHeaderCellAttributes(column: TableColumnProps) {
-    const { columnAttributes } = column;
-    if(columnAttributes && typeof columnAttributes === 'function') {
-        return columnAttributes({});
-    }
-    return columnAttributes;
+  const { columnAttributes } = column;
+  if (columnAttributes && typeof columnAttributes === 'function') {
+    return columnAttributes({});
+  }
+  return columnAttributes;
 }
 
 export function getDataCellAttributes(row: TableRowProps, column: TableColumnProps) {
-    const { data, index } = row;
-    const { dataAttributes } = column;
-    if(dataAttributes && typeof dataAttributes === 'function') {
-        const value = getValueByProperty(row, column);
-        return dataAttributes({ data, value, index });
-    }
-    return dataAttributes;
+  const { data, index } = row;
+  const { dataAttributes } = column;
+  if (dataAttributes && typeof dataAttributes === 'function') {
+    const value = getValueByProperty(row, column);
+    return dataAttributes({ data, value, index });
+  }
+  return dataAttributes;
 }
 
-export function getAttributes(attributes?: object|AttributesCallback) {
-    if(attributes && typeof attributes === 'function') {
-        return attributes({});
-    }
-    return attributes;
+export function getAttributes(attributes?: object | AttributesCallback) {
+  if (attributes && typeof attributes === 'function') {
+    return attributes({});
+  }
+  return attributes;
 }
