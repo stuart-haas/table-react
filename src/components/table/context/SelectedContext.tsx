@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const TableSelectedContext = createContext<Array<any>>([]);
+const SelectedContext = createContext<Array<any>>([]);
 
-export default TableSelectedContext;
+export default SelectedContext;

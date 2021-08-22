@@ -5,6 +5,8 @@ import {
   TableLabelData,
 } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
+import SelectedContext from "components/table/context/SelectedContext";
+import Checkbox from "components/form/Checkbox";
 
 const data = [
   {
@@ -73,6 +75,17 @@ const BaseTable = () => {
       },
     },
     columns: [
+      {
+        label: (t: TableLabelData) => {
+          return (
+            <SelectedContext.Consumer>
+              {(value) => (
+                <Checkbox />
+              )}
+            </SelectedContext.Consumer>
+          )
+        },
+      },
       {
         label: "Id",
         property: "id",
