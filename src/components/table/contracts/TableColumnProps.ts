@@ -10,7 +10,6 @@ export interface TableData extends ITableData {
 };
 
 export interface TableLabelData extends TableData {
-    type?: string;
     property?: string;
     rows?: TableRowProps;
     attributes?: object|AttributesCallback;
@@ -35,7 +34,6 @@ export interface TableAttributes {
     attributes?: object|AttributesCallback;
 }
 interface DefaultTableColumnProps {
-    type?: string;
     property?: string;
     label?: string|LabelCallback;
     transform?: TransformCallback;

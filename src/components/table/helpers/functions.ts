@@ -34,9 +34,9 @@ export function getValue(data: any, property?: string) {
 }
 
 export function getHeaderCellLabel(column: TableHeaderCellProps) {
-  const { label, type, property, rows, columns, data, attributes } = column;
+  const { label, property, rows, columns, data, attributes } = column;
   if (label && typeof label === 'function') {
-    return label({ type, property, rows, columns, data, attributes });
+    return label({ property, rows, columns, data, attributes });
   }
   return label;
 }
