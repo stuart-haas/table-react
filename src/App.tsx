@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./App.css";
 import { Table } from "components/table";
 import { TableProps } from "components/table/Table";
 import {
-  LabelCallback,
   TableData,
   TableLabelData,
 } from "components/table/contracts/TableColumnProps";
@@ -60,8 +59,8 @@ function App() {
       },
     },
     rows: {
-      attributes: (value: TableData) => {
-        const { data, index } = value;
+      attributes: (t: TableData) => {
+        const { data, index } = t;
         let className = "";
         if (index! % 2 === 1) {
           className = className + " bg-light";
@@ -76,54 +75,25 @@ function App() {
           },
         };
       },
-      actions: {
-        label: () => {
-          return "Actions";
-        },
-        attributes: {
-          style: {
-            textAlign: "right",
-          },
-          className: "fw-bold",
-        },
-        items: [
-          {
-            attributes: (attributes: TableData) => {
-              return {
-                className: "bi bi-clipboard me-2",
-                role: "button",
-              };
-            },
-            label: (label: TableLabelData) => {
-              console.log(label);
-            },
-          },
-          {
-            attributes: {
-              className: "bi bi-trash-fill",
-              role: "button",
-            },
-          },
-        ],
-      },
     },
     columns: [
       {
         type: "checkbox",
+        label: "Select",
       },
       {
         label: "Id",
         property: "id",
-        value: (value: TableData) => {
-          const { index } = value;
+        value: (t: TableData) => {
+          const { index } = t;
           return index! + 1;
         },
       },
       {
         label: "Name",
         property: "name",
-        dataAttributes: (attributes: TableData) => {
-          if (attributes.value === "Tomato") {
+        dataAttributes: (t: TableData) => {
+          if (t.value === "Tomato") {
             return {
               className: "fw-bold",
             };
@@ -133,8 +103,8 @@ function App() {
       {
         label: "Description",
         property: "description",
-        dataAttributes: (attributes: TableData) => {
-          const { data } = attributes;
+        dataAttributes: (t: TableData) => {
+          const { data } = t;
           const { name } = data;
           if (name === "Pumpkin") {
             return {
@@ -144,7 +114,7 @@ function App() {
         },
       },
       {
-        label: (label: TableLabelData) => {
+        label: (t: TableLabelData) => {
           return "Price";
         },
         property: "price",
@@ -158,8 +128,30 @@ function App() {
             textAlign: "right",
           },
         },
-        transform: (transform: TableData) => {
-          return `$${transform.value}`;
+        transform: (t: TableData) => {
+          return `$${t.value}`;
+        },
+      },
+      {
+        label: "Actions",
+        columnAttributes: {
+          style: {
+            textAlign: "right",
+          },
+          className: "fw-bold",
+        },
+        dataAttributes: {
+          style: {
+            textAlign: "right",
+          },
+        },
+        value: (t: TableData) => {
+          return (
+            <Fragment>
+              <i className="bi bi-clipboard me-2" role="button"></i>
+              <i className="bi bi-trash-fill" role="button"></i>
+            </Fragment>
+          );
         },
       },
     ],

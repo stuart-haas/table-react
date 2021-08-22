@@ -1,8 +1,6 @@
-import { TableHeaderCellsProps } from '../contracts';
 import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
 import { TableHeaderCellProps } from '../TableHeaderCell';
 import { TableRowProps } from '../TableRow';
-import { TableRowActionProps } from '../TableRowAction';
 
 export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
   const { data, index } = row;
@@ -43,34 +41,7 @@ export function getHeaderCellLabel(column: TableHeaderCellProps) {
   return label;
 }
 
-export function getRowActionsLabel(column: TableHeaderCellsProps) {
-  const { rows, columns, data } = column;
-  if (rows?.actions?.label) {
-    const label = rows.actions.label;
-    if (label && typeof label === 'function') {
-      return label({ rows, columns, data });
-    }
-    return label;
-  }
-}
-
-export function getRowActionLabel(column: TableRowActionProps) {
-  const { label, columns, data, index, tag, attributes } = column;
-  if (label && typeof label === 'function') {
-    return label({ columns, data, index, tag, attributes });
-  }
-  return label;
-}
-
 export function getRowAttributes(row: TableRowProps) {
-  const { data, index, columns, attributes } = row;
-  if (attributes && typeof attributes === 'function') {
-    return attributes({ data, columns, index });
-  }
-  return attributes;
-}
-
-export function getRowActionAttributes(row: TableRowActionProps) {
   const { data, index, columns, attributes } = row;
   if (attributes && typeof attributes === 'function') {
     return attributes({ data, columns, index });

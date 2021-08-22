@@ -25,7 +25,6 @@ const Table = (props: TableProps) => {
       <thead {...getAttributes(props.header?.attributes)}>
         <tr {...getAttributes(props.header?.row?.attributes)}>
           {Render.HeaderCells(props)}
-          {Render.HeaderActionCell(props)}
         </tr>
       </thead>
       <tbody {...getAttributes(props.body?.attributes)}>
