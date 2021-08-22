@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TableColumnProps, TableHeaderCellsProps } from "../contracts";
 import TableHeaderCell from "../TableHeaderCell";
 import TableRow, { TableRowProps } from "../TableRow";
 import TableDataCell from "../TableDataCell";
+import Checkbox from "components/form/Checkbox";
+import SelectedContext from "components/table/context/SelectedContext";
 
 export function HeaderCells(props: TableHeaderCellsProps) {
   return props.columns.map((column: TableColumnProps, index: number) => {
@@ -24,6 +26,7 @@ export function Rows(props: TableRowProps) {
       columns={props.columns}
       data={data}
       attributes={props.rows?.attributes}
+      selectChange={props.selectChange}
     />
   ));
 }
@@ -31,8 +34,42 @@ export function Rows(props: TableRowProps) {
 export function DataCells(props: TableRowProps) {
   return (
     props.columns &&
-    props.columns.map((column: TableColumnProps, index: number) => (
-      <TableDataCell key={index} row={props} column={column} />
-    ))
+    props.columns.map((column: TableColumnProps, index: number) => {
+      const cellProps = { row: props, column };
+      return <TableDataCell key={index} {...cellProps} />;
+    })
+  );
+}
+
+interface BatchRowSelectProps {
+  ref: any;
+  data?: any;
+  batchSelectChange: (e: any, data?: any) => void;
+}
+
+export function BatchRowSelect(props: BatchRowSelectProps) {
+  const { ref, batchSelectChange, data } = props;
+  return (
+    <td>
+      <Checkbox ref={ref} onChange={(e: any) => batchSelectChange(e, data)} />
+    </td>
+  );
+}
+
+interface RowSelectProps {
+  data?: any;
+  selectChange?: (e: any, data?: any) => void;
+}
+
+export function RowSelect(props: RowSelectProps) {
+  const selected = useContext(SelectedContext);
+  const { data, selectChange } = props;
+  return (
+    <td>
+      <Checkbox
+        checked={selected.find((item: any) => item.id === data.id) || false}
+        onChange={(e: any) => selectChange && selectChange(e, data)}
+      />
+    </td>
   );
 }

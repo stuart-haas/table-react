@@ -10,11 +10,13 @@ export interface TableRowProps {
   data?: any;
   attributes?: object | AttributesCallback;
   rows?: TableRowProps;
+  selectChange?: (e: any, data?: any) => void;
 }
 
 const TableRow = (props: TableRowProps) => {
   return (
     <tr {...getRowAttributes(props)}>
+      {Render.RowSelect({ data: props.data, selectChange: props.selectChange })}
       {Render.DataCells(props)}
     </tr>
   );

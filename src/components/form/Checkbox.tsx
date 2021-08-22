@@ -6,6 +6,7 @@ const Checkbox = React.forwardRef((props: any, ref: React.Ref<HTMLInputElement>)
     <input
       ref={ref}
       type="checkbox"
+      className="form-check-input"
       {...otherProps}
     />
   );
