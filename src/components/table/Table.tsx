@@ -9,7 +9,6 @@ import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import TableHeaderProps from "./contracts/TableHeaderProps";
 import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeaderSelect from "./TableHeaderSelect";
-import ColumnsContext from "./context/ColumnsContext";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
 
@@ -25,18 +24,14 @@ export interface TableProps {
 }
 
 const Table = (props: TableProps) => {
-  const [columns, setColumns] = useState<any>([]);
   const [selected, setSelected] = useState<any>([]);
   const [primaryKey, setPrimaryKey] = useState<any>([]);
   const headerSelectRef = createRef<any>();
+  const rowsProps = { ...props, selectChange: handlSelectChange };
 
   useEffect(() => {
     setPrimaryKey(props.primaryKey);
   }, [props.primaryKey]);
-
-  useEffect(() => {
-    setColumns(props.columns);
-  }, [props.columns]);
 
   useEffect(() => {
     if (selected.length && selected.length !== props.data!.length) {
@@ -73,29 +68,25 @@ const Table = (props: TableProps) => {
     }
   }
 
-  const rowsProps = { ...props, selectChange: handlSelectChange };
-
   return (
     <PrimaryKeyContext.Provider value={primaryKey}>
-      <ColumnsContext.Provider value={columns}>
-        <SelectedContext.Provider value={selected}>
-          <table {...getAttributes(props.attributes)}>
-            <thead {...getAttributes(props.header?.attributes)}>
-              <tr {...getAttributes(props.header?.row?.attributes)}>
-                <TableHeaderSelect
-                  data={props.data}
-                  forwardRef={headerSelectRef}
-                  batchSelectChange={handleBatchSelectChange}
-                />
-                <TableHeader {...props} />
-              </tr>
-            </thead>
-            <tbody {...getAttributes(props.body?.attributes)}>
-              <TableRows {...rowsProps} />
-            </tbody>
-          </table>
-        </SelectedContext.Provider>
-      </ColumnsContext.Provider>
+      <SelectedContext.Provider value={selected}>
+        <table {...getAttributes(props.attributes)}>
+          <thead {...getAttributes(props.header?.attributes)}>
+            <tr {...getAttributes(props.header?.row?.attributes)}>
+              <TableHeaderSelect
+                data={props.data}
+                forwardRef={headerSelectRef}
+                batchSelectChange={handleBatchSelectChange}
+              />
+              <TableHeader {...props} />
+            </tr>
+          </thead>
+          <tbody {...getAttributes(props.body?.attributes)}>
+            <TableRows {...rowsProps} />
+          </tbody>
+        </table>
+      </SelectedContext.Provider>
     </PrimaryKeyContext.Provider>
   );
 };
