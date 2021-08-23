@@ -1,21 +1,20 @@
 import React from "react";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
-import TableCheckbox from "./TableCheckbox";
 
 export interface TableHeaderSelectProps {
-  forwardRef: any;
   data?: any;
   batchSelectChange: (e: any, data?: any) => void;
 }
 
-const TableHeaderSelect = (props: TableHeaderSelectProps) => {
-  const { forwardRef, batchSelectChange, data } = props;
+const TableHeaderSelect = React.forwardRef((props: TableHeaderSelectProps, ref: React.Ref<HTMLInputElement>) => {
+  const { batchSelectChange, data } = props;
   return (
     <td>
       <PrimaryKeyContext.Consumer>
         {(value) => (
-          <TableCheckbox
-            ref={forwardRef}
+          <input
+            type="checkbox"
+            ref={ref}
             onChange={(e: any) => {
               const mappedData = data.map((item: any) => item[value!]);
               batchSelectChange(e, mappedData);
@@ -25,6 +24,6 @@ const TableHeaderSelect = (props: TableHeaderSelectProps) => {
       </PrimaryKeyContext.Consumer>
     </td>
   );
-};
+});
 
 export default TableHeaderSelect;

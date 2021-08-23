@@ -1,5 +1,5 @@
 import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
-import { TableHeaderCellProps } from '../TableHeaderCell';
+import TableHeaderProps from '../contracts/TableHeaderProps';
 import { TableRowProps } from '../TableRow';
 
 export function render(row: TableRowProps, column: TableColumnProps) {
@@ -30,7 +30,7 @@ export function getValue(data: any, property?: string) {
   }
 }
 
-export function getHeaderCellLabel(column: TableHeaderCellProps) {
+export function getHeaderCellLabel(column: TableColumnProps & TableHeaderProps) {
   const { label, property, rows, columns, data, attributes } = column;
   if (label && typeof label === 'function') {
     return label({ property, rows, columns, data, attributes });

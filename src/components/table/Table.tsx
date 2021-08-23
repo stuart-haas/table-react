@@ -76,7 +76,7 @@ const Table = (props: TableProps) => {
             <tr {...getAttributes(props.header?.row?.attributes)}>
               <TableHeaderSelect
                 data={props.data}
-                forwardRef={headerSelectRef}
+                ref={headerSelectRef}
                 batchSelectChange={handleBatchSelectChange}
               />
               <TableHeader {...props} />

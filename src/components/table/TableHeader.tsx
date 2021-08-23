@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import TableColumnProps from "./contracts/TableColumnProps";
-import TableHeaderCell from "./TableHeaderCell";
+import { getHeaderCellAttributes, getHeaderCellLabel } from "./helpers/functions";
 import { TableRowProps } from "./TableRow";
 
 export interface TableHeaderProps {
@@ -20,7 +20,7 @@ const TableHeader = (props: TableHeaderProps) => {
             rows: props.rows,
             data: props.data,
           };
-          return <TableHeaderCell key={index} {...cellProps} />;
+          return <th key={index} {...getHeaderCellAttributes(cellProps)}>{getHeaderCellLabel(cellProps)}</th>
         })}
     </Fragment>
   );

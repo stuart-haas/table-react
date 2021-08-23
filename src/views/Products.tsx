@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Table from "components/table/Table";
 import { RenderData } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
+import { actions, attributes } from "config/table";
 
 const data = [
   {
@@ -44,11 +45,7 @@ const data = [
 
 const Products = () => {
   const tableProps: TableProps = {
-    attributes: () => {
-      return {
-        className: "table table-borderless table-striped",
-      };
-    },
+    attributes,
     columns: [
       {
         label: "Id",
@@ -77,20 +74,21 @@ const Products = () => {
           return `$${t.value}`;
         },
       },
-      {
-        label: "Actions",
-        render: (t: RenderData) => {
-          return (
-            <Fragment>
-              <i className="bi bi-pencil-square me-2" role="button" onClick={() => window.alert(`Edit ${JSON.stringify(t.data)}`)}></i>
-              <i className="bi bi-trash-fill" role="button" onClick={() => window.alert(`Delete ${JSON.stringify(t.data)}`)}></i>
-            </Fragment>
-          );
-        },
-      },
+      ...actions({
+        edit: handleEdit,
+        delete: handleDelete,
+      }),
     ],
     data,
   };
+
+  function handleEdit(t: RenderData) {
+    console.log(t);
+  }
+
+  function handleDelete(t: RenderData) {
+    console.log(t);
+  }
 
   return <Table {...tableProps} />;
 };

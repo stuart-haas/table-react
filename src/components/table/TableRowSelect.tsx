@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import SelectedContext from "./context/SelectedContext";
-import TableCheckbox from "./TableCheckbox";
 
 export interface TableRowSelectProps {
   data?: any;
@@ -15,7 +14,8 @@ const TableRowSelect = (props: TableRowSelectProps) => {
     <td>
       <PrimaryKeyContext.Consumer>
         {(value) => (
-          <TableCheckbox
+          <input
+            type="checkbox"
             checked={
               selected.find((item: any) => item === data[value!]) || false
             }
