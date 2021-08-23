@@ -12,6 +12,9 @@ export const actions = (props: TableActions) => {
   return [
     {
       label: "Actions",
+      attributes: {
+        className: "text-end",
+      },
       render: (renderData: RenderData) => {
         return (
           <Fragment>

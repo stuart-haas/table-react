@@ -13,12 +13,6 @@
       "price": 5
     },
     {
-      "id": 3,
-      "name": "Apple",
-      "description": "Watch out for worms",
-      "price": 3
-    },
-    {
       "id": 4,
       "name": "Potato",
       "description": "Don't forget the starch",

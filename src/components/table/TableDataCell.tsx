@@ -1,6 +1,6 @@
 import React from "react";
 import { TableRowProps } from "./TableRow";
-import { getDataCellAttributes, render } from "./helpers/functions";
+import { getAttributes, getDataCellAttributes, render } from "./helpers/functions";
 import TableColumnProps from "./contracts/TableColumnProps";
 
 export interface TableDataCellProps {
@@ -10,8 +10,9 @@ export interface TableDataCellProps {
 
 const TableDataCell = (props: TableDataCellProps) => {
   const { row, column } = props;
+  const attributes = {...getDataCellAttributes(row, column), ...getAttributes(column.attributes)}
   return (
-    <td {...getDataCellAttributes(row, column)}>
+    <td {...attributes}>
       {render(row, column)}
     </td>
   );
