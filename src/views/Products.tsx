@@ -44,7 +44,7 @@ const data = [
   },
 ];
 
-const BaseTable = () => {
+const Products = () => {
   const tableProps: TableProps = {
     primaryKey: 'name',
     attributes: () => {
@@ -98,4 +98,4 @@ const BaseTable = () => {
   return <Table {...tableProps} />;
 };
 
-export default BaseTable;
+export default Products;
