@@ -1,7 +1,9 @@
 import React from "react";
-import TableColumnProps, { AttributesCallback } from "./contracts/TableColumnProps";
+import TableColumnProps, {
+  AttributesCallback,
+} from "./contracts/TableColumnProps";
 import { getRowAttributes } from "./helpers/functions";
-import TableDataCells from "./TableDataCells";
+import TableDataCell from "./TableDataCell";
 import TableRowSelect from "./TableRowSelect";
 
 export interface TableRowProps {
@@ -17,7 +19,11 @@ const TableRow = (props: TableRowProps) => {
   return (
     <tr {...getRowAttributes(props)}>
       <TableRowSelect data={props.data} selectChange={props.selectChange} />
-      <TableDataCells {...props} />
+      {props.columns &&
+        props.columns.map((column: TableColumnProps, index: number) => {
+          const cellProps = { row: props, column };
+          return <TableDataCell key={index} {...cellProps} />;
+        })}
     </tr>
   );
 };
