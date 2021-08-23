@@ -1,48 +1,39 @@
 import { TableRowProps } from "../TableRow";
 
-export interface ITableData {};
+export interface AttributesData { };
 
-export interface TableData extends ITableData {
+export interface RenderData {
     property?: string;
     data?: any;
-    value?: any;
+    value?: string | number;
     index?: number;
     columns?: Array<TableColumnProps>;
 };
 
-export interface TableLabelData extends TableData {
-    property?: string;
+export interface LabelData extends RenderData {
     rows?: TableRowProps;
-    attributes?: object|AttributesCallback;
+    attributes?: object | AttributesCallback;
     tag?: string;
 };
 
-export interface TransformCallback {
-    (callback: TableData): any;
-}
-
-export interface ValueCallback {
-    (callback: TableData): any;
+export interface RenderCallback {
+    (callback: RenderData): void;
 }
 export interface AttributesCallback {
-    (callback: ITableData): any;
+    (callback: AttributesData): void;
 }
 
 export interface LabelCallback {
-    (callback: TableLabelData): any;
-}
-export interface TableAttributes {
-    attributes?: object|AttributesCallback;
-}
-interface DefaultTableColumnProps {
-    property?: string;
-    label?: string|LabelCallback;
-    transform?: TransformCallback;
-    value?: string|number|ValueCallback;
-    dataAttributes?: object|AttributesCallback;
-    columnAttributes?: object|AttributesCallback;
+    (callback: LabelData): void;
 }
 
-type TableColumnProps = DefaultTableColumnProps & TableAttributes;
+interface TableColumnProps {
+    property?: string;
+    label?: string | LabelCallback;
+    render?: string | number | RenderCallback;
+    dataAttributes?: object | AttributesCallback;
+    columnAttributes?: object | AttributesCallback;
+    attributes?: object | AttributesCallback;
+}
 
 export default TableColumnProps;

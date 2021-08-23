@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import Table from "components/table/Table";
-import {
-  TableData,
-} from "components/table/contracts/TableColumnProps";
+import { RenderData } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
 
 const data = [
@@ -46,7 +44,6 @@ const data = [
 
 const Products = () => {
   const tableProps: TableProps = {
-    primaryKey: 'name',
     attributes: () => {
       return {
         className: "table table-borderless table-striped",
@@ -60,7 +57,7 @@ const Products = () => {
       {
         label: "Name",
         property: "name",
-        transform: (t: TableData) => {
+        render: (t: RenderData) => {
           const { value } = t;
           return (
             <button type="button" className="btn btn-link">
@@ -76,17 +73,17 @@ const Products = () => {
       {
         label: "Price",
         property: "price",
-        transform: (t: TableData) => {
+        render: (t: RenderData) => {
           return `$${t.value}`;
         },
       },
       {
-        label: 'Actions',
-        value: (t: TableData) => {
+        label: "Actions",
+        render: (t: RenderData) => {
           return (
             <Fragment>
-              <i className="bi bi-pencil-square me-2" role="button"></i>
-              <i className="bi bi-trash-fill" role="button"></i>
+              <i className="bi bi-pencil-square me-2" role="button" onClick={() => window.alert(`Edit ${JSON.stringify(t.data)}`)}></i>
+              <i className="bi bi-trash-fill" role="button" onClick={() => window.alert(`Delete ${JSON.stringify(t.data)}`)}></i>
             </Fragment>
           );
         },

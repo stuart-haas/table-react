@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useState } from "react";
 import TableColumnProps, {
-  TableAttributes,
+  AttributesCallback,
 } from "./contracts/TableColumnProps";
 import { getAttributes } from "./helpers/functions";
 import * as Render from "./helpers/render";
@@ -11,7 +11,7 @@ import TableHeaderProps from "./contracts/TableHeaderProps";
 import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeaderSelect from "./TableHeaderSelect";
 
-interface DefaultTableProps {
+export interface TableProps {
   primaryKey?: string;
   header?: TableHeaderProps;
   body?: TableBodyProps;
@@ -19,9 +19,8 @@ interface DefaultTableProps {
   rows?: TableRowProps;
   data?: Array<any>;
   selected?: Array<any>;
+  attributes?: object | AttributesCallback;
 }
-
-export type TableProps = DefaultTableProps & TableAttributes;
 
 const Table = (props: TableProps) => {
   const [selected, setSelected] = useState<any>([]);

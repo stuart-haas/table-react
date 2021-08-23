@@ -2,19 +2,16 @@ import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnPr
 import { TableHeaderCellProps } from '../TableHeaderCell';
 import { TableRowProps } from '../TableRow';
 
-export function getValueByProperty(row: TableRowProps, column: TableColumnProps) {
+export function render(row: TableRowProps, column: TableColumnProps) {
   const { data, index } = row;
-  const { property, value, transform } = column;
+  const { property, render } = column;
   try {
-    if (value) {
-      if (typeof value === 'function') {
-        return value({ data, value, index, property });
+    if (render) {
+      if (typeof render === 'function') {
+        const value = getValue(data, property);
+        return render({ data, value, index, property });
       }
-      return value;
-    }
-    if (transform) {
-      const value = getValue(data, property);
-      return transform({ data, value, index, property });
+      return render;
     }
     return getValue(data, property);
   } catch (e) {
@@ -61,7 +58,7 @@ export function getDataCellAttributes(row: TableRowProps, column: TableColumnPro
   const { data, index } = row;
   const { dataAttributes } = column;
   if (dataAttributes && typeof dataAttributes === 'function') {
-    const value = getValueByProperty(row, column);
+    const value = render(row, column);
     return dataAttributes({ data, value, index });
   }
   return dataAttributes;
