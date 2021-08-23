@@ -8,13 +8,13 @@ export function getValueByProperty(row: TableRowProps, column: TableColumnProps)
   try {
     if (value) {
       if (typeof value === 'function') {
-        return value({ data, value, index });
+        return value({ data, value, index, property });
       }
       return value;
     }
     if (transform) {
       const value = getValue(data, property);
-      return transform({ data, value, index });
+      return transform({ data, value, index, property });
     }
     return getValue(data, property);
   } catch (e) {

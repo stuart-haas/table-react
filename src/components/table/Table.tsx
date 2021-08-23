@@ -1,15 +1,12 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
-import {
-  TableBodyProps,
-  TableColumnProps,
-  TableHeaderProps,
-} from "./contracts";
-import { TableAttributes } from "./contracts/TableColumnProps";
+import React, { createRef, useEffect, useState } from "react";
+import TableColumnProps, { TableAttributes } from "./contracts/TableColumnProps";
 import { getAttributes } from "./helpers/functions";
 import * as Render from "./helpers/render";
 import { TableRowProps } from "./TableRow";
 import SelectedContext from "./context/SelectedContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
+import TableHeaderProps from "./contracts/TableHeaderProps";
+import TableBodyProps from "./contracts/TableBodyProps";
 
 interface DefaultTableProps {
   primaryKey?: string;

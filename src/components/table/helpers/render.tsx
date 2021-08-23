@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { TableColumnProps, TableHeaderCellsProps } from "../contracts";
-import TableHeaderCell from "../TableHeaderCell";
+import TableHeaderCell, { TableHeaderCellProps } from "../TableHeaderCell";
 import TableRow, { TableRowProps } from "../TableRow";
 import TableDataCell from "../TableDataCell";
-import Checkbox from "components/form/Checkbox";
+import TableCheckbox from "components/table/TableCheckbox";
 import SelectedContext from "components/table/context/SelectedContext";
 import PrimaryKeyContext from "../context/PrimaryKeyContext";
+import TableColumnProps from "../contracts/TableColumnProps";
 
-export function HeaderCells(props: TableHeaderCellsProps) {
+export function HeaderCells(props: TableHeaderCellProps) {
   return props.columns.map((column: TableColumnProps, index: number) => {
     const cellProps = {
       ...column,
@@ -54,7 +54,7 @@ export function BatchRowSelect(props: BatchRowSelectProps) {
     <td>
       <PrimaryKeyContext.Consumer>
         {(value) => (
-          <Checkbox
+          <TableCheckbox
             ref={ref}
             onChange={(e: any) => {
               const mappedData = data.map((item: any) => item[value!]);
@@ -79,7 +79,7 @@ export function RowSelect(props: RowSelectProps) {
     <td>
       <PrimaryKeyContext.Consumer>
         {(value) => (
-          <Checkbox
+          <TableCheckbox
             checked={
               selected.find((item: any) => item === data[value!]) || false
             }

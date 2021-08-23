@@ -1,6 +1,5 @@
 import React from "react";
-import { TableColumnProps } from "./contracts";
-import { AttributesCallback } from "./contracts/TableColumnProps";
+import TableColumnProps, { AttributesCallback } from "./contracts/TableColumnProps";
 import { getRowAttributes } from "./helpers/functions";
 import * as Render from "./helpers/render";
 

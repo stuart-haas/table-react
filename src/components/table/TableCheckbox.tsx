@@ -1,6 +1,6 @@
 import React from "react";
 
-const Checkbox = React.forwardRef((props: any, ref: React.Ref<HTMLInputElement>) => {
+const TableCheckbox = React.forwardRef((props: any, ref: React.Ref<HTMLInputElement>) => {
   const { value, ...otherProps } = props;
   return (
     <input
@@ -12,4 +12,4 @@ const Checkbox = React.forwardRef((props: any, ref: React.Ref<HTMLInputElement>)
   );
 });
 
-export default Checkbox;
+export default TableCheckbox;

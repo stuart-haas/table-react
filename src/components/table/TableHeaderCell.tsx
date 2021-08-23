@@ -1,5 +1,6 @@
 import React from "react";
-import { TableColumnProps, TableHeaderCellsProps } from "./contracts";
+import TableColumnProps from "./contracts/TableColumnProps";
+import TableHeaderCellsProps from "./contracts/TableHeaderCellsProps";
 import {
   getHeaderCellAttributes,
   getHeaderCellLabel,

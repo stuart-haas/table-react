@@ -3,6 +3,7 @@ import { TableRowProps } from "../TableRow";
 export interface ITableData {};
 
 export interface TableData extends ITableData {
+    property?: string;
     data?: any;
     value?: any;
     index?: number;
