@@ -1,5 +1,7 @@
 import React, { createRef, useEffect, useState } from "react";
-import TableColumnProps, { TableAttributes } from "./contracts/TableColumnProps";
+import TableColumnProps, {
+  TableAttributes,
+} from "./contracts/TableColumnProps";
 import { getAttributes } from "./helpers/functions";
 import * as Render from "./helpers/render";
 import { TableRowProps } from "./TableRow";
@@ -7,6 +9,7 @@ import SelectedContext from "./context/SelectedContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import TableHeaderProps from "./contracts/TableHeaderProps";
 import TableBodyProps from "./contracts/TableBodyProps";
+import TableHeaderSelect from "./TableHeaderSelect";
 
 interface DefaultTableProps {
   primaryKey?: string;
@@ -23,7 +26,7 @@ export type TableProps = DefaultTableProps & TableAttributes;
 const Table = (props: TableProps) => {
   const [selected, setSelected] = useState<any>([]);
   const [primaryKey, setPrimaryKey] = useState<any>([]);
-  const batchSelectRef = createRef<any>();
+  const headerSelectRef = createRef<any>();
 
   useEffect(() => {
     setPrimaryKey(props.primaryKey);
@@ -31,17 +34,17 @@ const Table = (props: TableProps) => {
 
   useEffect(() => {
     if (selected.length && selected.length !== props.data!.length) {
-      batchSelectRef.current.indeterminate = true;
+      headerSelectRef.current.indeterminate = true;
     }
     if (selected.length && selected.length === props.data!.length) {
-      batchSelectRef.current.checked = true;
-      batchSelectRef.current.indeterminate = false;
+      headerSelectRef.current.indeterminate = false;
+      headerSelectRef.current.checked = true;
     }
     if (!selected.length) {
-      batchSelectRef.current.indeterminate = false;
-      batchSelectRef.current.checked = false;
+      headerSelectRef.current.indeterminate = false;
+      headerSelectRef.current.checked = false;
     }
-  }, [props.data, selected, batchSelectRef]);
+  }, [props.data, selected, headerSelectRef]);
 
   function handleBatchSelectChange(e: any, data?: any) {
     if (e.target.checked) {
@@ -70,11 +73,11 @@ const Table = (props: TableProps) => {
         <table {...getAttributes(props.attributes)}>
           <thead {...getAttributes(props.header?.attributes)}>
             <tr {...getAttributes(props.header?.row?.attributes)}>
-              {Render.BatchRowSelect({
-                data: props.data,
-                ref: batchSelectRef,
-                batchSelectChange: handleBatchSelectChange,
-              })}
+              <TableHeaderSelect
+                data={props.data}
+                forwardRef={headerSelectRef}
+                batchSelectChange={handleBatchSelectChange}
+              />
               {Render.HeaderCells(props)}
             </tr>
           </thead>

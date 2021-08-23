@@ -15,7 +15,7 @@ const data = [
   {
     id: 2,
     name: "Tomato",
-    description: "Not mistaken for a vegetable",
+    description: "Often mistaken for a vegetable",
     price: 5,
   },
   {
@@ -27,7 +27,7 @@ const data = [
   {
     id: 4,
     name: "Potato",
-    description: "Go Irish",
+    description: "Don't forget the starch",
     price: 4,
   },
   {
@@ -39,7 +39,7 @@ const data = [
   {
     id: 6,
     name: "Watermelon",
-    description: "Juicy",
+    description: "Best when crispy",
     price: 7,
   },
 ];
