@@ -12,14 +12,14 @@ export const actions = (props: TableActions) => {
   return [
     {
       label: "Actions",
-      render: (t: RenderData) => {
+      render: (renderData: RenderData) => {
         return (
           <Fragment>
             {props.edit && <EditButton
-              onClick={() => props.edit!(t)}
+              onClick={() => props.edit!(renderData)}
             />}
             {props.delete && <DeleteButton
-              onClick={() => props.delete!(t)}
+              onClick={() => props.delete!(renderData)}
             />}
           </Fragment>
         );

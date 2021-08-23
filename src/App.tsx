@@ -5,7 +5,7 @@ import Products from "views/Products";
 function App() {
   return (
     <div className="container mt-4">
-      <Products />
+      <Products namespace="products" />
     </div>
   );
 }

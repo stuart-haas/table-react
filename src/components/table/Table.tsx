@@ -52,7 +52,7 @@ const Table = (props: TableProps) => {
       setSelected(
         [...selected, ...data].filter(
           (item: any, index: number, array: any) =>
-            array.findIndex((t: any) => t === item) === index
+            array.findIndex((e: any) => e === item) === index
         )
       );
     } else {
