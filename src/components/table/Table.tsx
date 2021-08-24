@@ -3,12 +3,13 @@ import TableColumnProps, {
   AttributesCallback,
 } from "./contracts/TableColumnProps";
 import { getAttributes } from "./helpers/functions";
-import TableRow, { TableRowProps } from "./TableRow";
+import { TableRowProps } from "./TableRow";
 import SelectedContext from "./context/SelectedContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import TableHeaderProps from "./contracts/TableHeaderProps";
 import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeader from "./TableHeader";
+import TableRows from "./TableRows";
 
 export interface TableProps {
   primaryKey?: string;
@@ -19,33 +20,31 @@ export interface TableProps {
   data?: Array<any>;
   selected?: Array<any>;
   attributes?: object | AttributesCallback;
-  checkboxSelection?: boolean;
 }
 
 const Table = (props: TableProps) => {
   const [selected, setSelected] = useState<any>([]);
   const [primaryKey, setPrimaryKey] = useState<any>([]);
-  const headerCheckbox = createRef<any>();
+  const headerSelectRef = createRef<any>();
+  const rowsProps = { ...props, selectChange: handlSelectChange };
 
   useEffect(() => {
     setPrimaryKey(props.primaryKey);
   }, [props.primaryKey]);
 
   useEffect(() => {
-    if (props.checkboxSelection) {
-      if (selected.length && selected.length !== props.data!.length) {
-        headerCheckbox.current.indeterminate = true;
-      }
-      if (selected.length && selected.length === props.data!.length) {
-        headerCheckbox.current.indeterminate = false;
-        headerCheckbox.current.checked = true;
-      }
-      if (!selected.length) {
-        headerCheckbox.current.indeterminate = false;
-        headerCheckbox.current.checked = false;
-      }
+    if (selected.length && selected.length !== props.data!.length) {
+      headerSelectRef.current.indeterminate = true;
     }
-  }, [props.data, selected, headerCheckbox, props.checkboxSelection]);
+    if (selected.length && selected.length === props.data!.length) {
+      headerSelectRef.current.indeterminate = false;
+      headerSelectRef.current.checked = true;
+    }
+    if (!selected.length) {
+      headerSelectRef.current.indeterminate = false;
+      headerSelectRef.current.checked = false;
+    }
+  }, [props.data, selected, headerSelectRef]);
 
   function handleBatchSelectChange(e: any, data?: any) {
     if (e.target.checked) {
@@ -74,35 +73,23 @@ const Table = (props: TableProps) => {
         <table {...getAttributes(props.attributes)}>
           <thead {...getAttributes(props.header?.attributes)}>
             <tr {...getAttributes(props.header?.row?.attributes)}>
-              {props.checkboxSelection && (
-                <td>
-                  <input
-                    type="checkbox"
-                    ref={headerCheckbox}
-                    onChange={(e: any) => {
-                      const mappedData =
-                        props.data &&
-                        props.data.map((item: any) => item[primaryKey!]);
-                      handleBatchSelectChange(e, mappedData);
-                    }}
-                  />
-                </td>
-              )}
+              <td>
+                <input
+                  type="checkbox"
+                  ref={headerSelectRef}
+                  onChange={(e: any) => {
+                    const mappedData =
+                      props.data &&
+                      props.data.map((item: any) => item[primaryKey!]);
+                    handleBatchSelectChange(e, mappedData);
+                  }}
+                />
+              </td>
               <TableHeader {...props} />
             </tr>
           </thead>
           <tbody {...getAttributes(props.body?.attributes)}>
-            {props.data?.map((data: TableRowProps, index: number) => (
-              <TableRow
-                key={index}
-                index={index}
-                data={data}
-                columns={props.columns}
-                attributes={props.rows?.attributes}
-                checkboxSelection={props.checkboxSelection}
-                selectChange={handlSelectChange}
-              />
-            ))}
+            <TableRows {...rowsProps} />
           </tbody>
         </table>
       </SelectedContext.Provider>
