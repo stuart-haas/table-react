@@ -6,7 +6,7 @@ import React, { Fragment } from "react";
 export interface TableActions {
   edit?: (data?: any) => void;
   delete?: (data?: any) => void;
-};
+}
 
 export const actions = (props: TableActions) => {
   return [
@@ -18,12 +18,12 @@ export const actions = (props: TableActions) => {
       render: (renderData: RenderData) => {
         return (
           <Fragment>
-            {props.edit && <EditButton
-              onClick={() => props.edit!(renderData)}
-            />}
-            {props.delete && <DeleteButton
-              onClick={() => props.delete!(renderData)}
-            />}
+            {props.edit && (
+              <EditButton onClick={() => props.edit!(renderData)} />
+            )}
+            {props.delete && (
+              <DeleteButton onClick={() => props.delete!(renderData)} />
+            )}
           </Fragment>
         );
       },

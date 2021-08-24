@@ -8,7 +8,6 @@ import SelectedContext from "./context/SelectedContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import TableHeaderProps from "./contracts/TableHeaderProps";
 import TableBodyProps from "./contracts/TableBodyProps";
-import TableHeaderSelect from "./TableHeaderSelect";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
 
@@ -74,11 +73,18 @@ const Table = (props: TableProps) => {
         <table {...getAttributes(props.attributes)}>
           <thead {...getAttributes(props.header?.attributes)}>
             <tr {...getAttributes(props.header?.row?.attributes)}>
-              <TableHeaderSelect
-                data={props.data}
-                ref={headerSelectRef}
-                batchSelectChange={handleBatchSelectChange}
-              />
+              <td>
+                <input
+                  type="checkbox"
+                  ref={headerSelectRef}
+                  onChange={(e: any) => {
+                    const mappedData =
+                      props.data &&
+                      props.data.map((item: any) => item[primaryKey!]);
+                    handleBatchSelectChange(e, mappedData);
+                  }}
+                />
+              </td>
               <TableHeader {...props} />
             </tr>
           </thead>
