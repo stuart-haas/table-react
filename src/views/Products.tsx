@@ -22,6 +22,7 @@ const Products = (props: ProductsProps) => {
 
   const tableProps: TableProps = {
     attributes,
+    checkboxSelection: true,
     columns: [
       {
         label: "Id",
