@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Table from "components/table/Table";
 import {
-  LabelData,
   RenderData,
 } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
-import { actions, attributes } from "config/table";
+import { actions, attributes, editColumn, priceColumn, sortableLabel } from "config/table";
 import api from "services/api";
 import { TableHeaderCellProps } from "components/table/TableHeaderCell";
 import { Order } from "components/table/context/OrderContext";
-import OrderIcon from "components/icons/OrderIcon";
+import { useFetch } from "utils/hooks";
 interface ProductsProps {
   namespace: string;
 }
@@ -18,64 +17,33 @@ const Products = (props: ProductsProps) => {
   const { namespace } = props;
   const [data, setData] = useState<any>([]);
 
+  const { data: initData } = useFetch(namespace);
+
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await api.get(`/${namespace}`);
-      setData(data);
-    };
-    fetchData();
-  }, [namespace]);
+    setData(initData);
+  }, [initData]);
 
   const tableProps: TableProps = {
     attributes,
     columns: [
       {
         sortable: false,
-        label: (labelData: LabelData) => {
-          const { sort, order, property } = labelData;
-          const props = { label: "Id", sort, order, property };
-          return <OrderIcon {...props} />
-        },
+        label: "Id",
         property: "id",
       },
       {
-        label: (labelData: LabelData) => {
-          const { sort, order, property } = labelData;
-          const props = { label: "Name", sort, order, property };
-          return <OrderIcon {...props} />
-        },
+        label: sortableLabel("Name"),
         property: "name",
-        render: (renderData: RenderData) => {
-          const { value } = renderData;
-          return (
-            <button
-              type="button"
-              className="btn btn-link"
-              onClick={() => handleEdit(renderData)}
-            >
-              {value}
-            </button>
-          );
-        },
+        render: editColumn({ handleEdit }),
       },
       {
-        label: (labelData: LabelData) => {
-          const { sort, order, property } = labelData;
-          const props = { label: "Description", sort, order, property };
-          return <OrderIcon {...props} />
-        },
+        label: sortableLabel("Description"),
         property: "description",
       },
       {
-        label: (labelData: LabelData) => {
-          const { sort, order, property } = labelData;
-          const props = { label: "Price", sort, order, property };
-          return <OrderIcon {...props} />
-        },
+        label: sortableLabel("Price"),
         property: "price",
-        render: (renderData: RenderData) => {
-          return `$${renderData.value}`;
-        },
+        render: priceColumn(),
       },
       ...actions({
         edit: handleEdit,
