@@ -47,9 +47,9 @@ export function getRowAttributes(row: TableRowProps) {
 }
 
 export function getHeaderCellAttributes(column: TableColumnProps) {
-  const { columnAttributes } = column;
+  const { property, columnAttributes } = column;
   if (columnAttributes && typeof columnAttributes === 'function') {
-    return columnAttributes({});
+    return columnAttributes({ property });
   }
   return columnAttributes;
 }

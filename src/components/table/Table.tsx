@@ -13,6 +13,14 @@ import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
 import CheckboxSelectContext from "./context/CheckboxSelectContext";
 import BatchCheckboxSelectContext from "./context/BatchCheckboxSelectContext";
+import OrderContext from "./context/OrderContext";
+import { TableHeaderCellProps } from "./TableHeaderCell";
+
+export enum Order {
+  Asc = "asc",
+  Desc = "desc",
+  None = "",
+}
 
 export interface TableProps {
   primaryKey?: string;
@@ -23,12 +31,19 @@ export interface TableProps {
   data?: Array<any>;
   selected?: Array<any>;
   attributes?: object | AttributesCallback;
+  order?: Order,
+  onOrderChange?: (headerCellProps: TableHeaderCellProps, order: Order) => void;
 }
 
 const Table = (props: TableProps) => {
   const { data, primaryKey } = props;
-  const [selected, setSelected] = useState<any>([]);
   const headerSelectRef = createRef<any>();
+  const [selected, setSelected] = useState<any>([]);
+  const [order, setOrder] = useState<Order>();
+
+  useEffect(() => {
+    setOrder(props.order);
+  }, [props.order]);
 
   useEffect(() => {
     if (selected.length && selected.length !== data!.length) {
@@ -65,22 +80,35 @@ const Table = (props: TableProps) => {
     }
   }
 
+  function handleOrder(headerCellProps: TableHeaderCellProps) {
+    let currentOrder =
+      order === Order.None
+        ? Order.Asc
+        : order === Order.Asc
+        ? Order.Desc
+        : Order.None;
+    setOrder(currentOrder);
+    props.onOrderChange && props.onOrderChange(headerCellProps, currentOrder);
+  }
+
   return (
     <PrimaryKeyContext.Provider value={primaryKey}>
       <SelectedContext.Provider value={selected}>
         <BatchCheckboxSelectContext.Provider value={handleBatchCheckboxChange}>
           <CheckboxSelectContext.Provider value={handleCheckboxChange}>
-            <table {...getAttributes(props.attributes)}>
-              <thead {...getAttributes(props.header?.attributes)}>
-                <tr {...getAttributes(props.header?.row?.attributes)}>
-                  <TableHeaderSelect ref={headerSelectRef} {...props} />
-                  <TableHeader {...props} />
-                </tr>
-              </thead>
-              <tbody {...getAttributes(props.body?.attributes)}>
-                <TableRows {...props} />
-              </tbody>
-            </table>
+            <OrderContext.Provider value={handleOrder}>
+              <table {...getAttributes(props.attributes)}>
+                <thead {...getAttributes(props.header?.attributes)}>
+                  <tr {...getAttributes(props.header?.row?.attributes)}>
+                    <TableHeaderSelect ref={headerSelectRef} {...props} />
+                    <TableHeader {...props} />
+                  </tr>
+                </thead>
+                <tbody {...getAttributes(props.body?.attributes)}>
+                  <TableRows {...props} />
+                </tbody>
+              </table>
+            </OrderContext.Provider>
           </CheckboxSelectContext.Provider>
         </BatchCheckboxSelectContext.Provider>
       </SelectedContext.Provider>
@@ -90,6 +118,7 @@ const Table = (props: TableProps) => {
 
 Table.defaultProps = {
   primaryKey: "id",
+  order: Order.None,
   selected: [],
 };
 

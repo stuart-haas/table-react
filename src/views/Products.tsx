@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Table from "components/table/Table";
+import Table, { Order } from "components/table/Table";
 import { RenderData } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
 import { actions, attributes } from "config/table";
 import api from "services/api";
+import { TableHeaderCellProps } from "components/table/TableHeaderCell";
 interface ProductsProps {
   namespace: string;
 }
@@ -62,6 +63,13 @@ const Products = (props: ProductsProps) => {
     data,
   };
 
+  async function handleOrder(headerCellProps: TableHeaderCellProps, order: Order) {
+    const { property } = headerCellProps;
+    const params = [Order.Asc, Order.Desc].includes(order) ? `?_sort=${property}&_order=${order}` : Order.None;
+    const { data } = await api.get(`/${namespace}${params}`);
+    setData(data);
+  }
+
   async function handleEdit(renderData: RenderData) {
     const { id } = renderData.data;
     const { data } = await api.get(`/${namespace}/${id}`);
@@ -69,13 +77,14 @@ const Products = (props: ProductsProps) => {
   }
 
   async function handleDelete(renderData: RenderData) {
-    if(!window.confirm('Are you sure you want to delete this product?')) return;
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
     const { id } = renderData.data;
     await api.delete(`/${namespace}/${id}`);
     setData(data.filter((item: any) => item.id !== id));
   }
 
-  return <Table {...tableProps} />;
+  return <Table {...tableProps} onOrderChange={handleOrder} />;
 };
 
 export default Products;

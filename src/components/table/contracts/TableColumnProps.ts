@@ -1,6 +1,12 @@
 import { TableRowProps } from "../TableRow";
 
-export interface AttributesData { };
+export interface AttributesData {
+    property?: string;
+    data?: any;
+    value?: string | number;
+    index?: number;
+    columns?: Array<TableColumnProps>;
+ };
 
 export interface RenderData {
     property?: string;
