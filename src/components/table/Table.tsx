@@ -11,16 +11,10 @@ import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeaderSelect from "./TableHeaderSelect";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
-import CheckboxSelectContext from "./context/CheckboxSelectContext";
-import BatchCheckboxSelectContext from "./context/BatchCheckboxSelectContext";
-import OrderContext from "./context/OrderContext";
+import RowCheckboxContext from "./context/RowCheckboxContext";
+import OrderContext, { Order } from "./context/OrderContext";
 import { TableHeaderCellProps } from "./TableHeaderCell";
-
-export enum Order {
-  Asc = "asc",
-  Desc = "desc",
-  None = "",
-}
+import HeaderCheckboxContext from "./context/HeaderCheckboxContext";
 
 export interface TableProps {
   primaryKey?: string;
@@ -31,8 +25,9 @@ export interface TableProps {
   data?: Array<any>;
   selected?: Array<any>;
   attributes?: object | AttributesCallback;
-  order?: Order,
+  order?: Order;
   onOrderChange?: (headerCellProps: TableHeaderCellProps, order: Order) => void;
+  onSelectChange?: (data: Array<any>) => void;
 }
 
 const Table = (props: TableProps) => {
@@ -40,10 +35,15 @@ const Table = (props: TableProps) => {
   const headerSelectRef = createRef<any>();
   const [selected, setSelected] = useState<any>([]);
   const [order, setOrder] = useState<Order>();
+  const [sort, setSort] = useState<any>();
 
   useEffect(() => {
     setOrder(props.order);
   }, [props.order]);
+
+  useEffect(() => {
+    props.onSelectChange && props.onSelectChange(selected);
+  }, [props, selected]);
 
   useEffect(() => {
     if (selected.length && selected.length !== data!.length) {
@@ -59,7 +59,15 @@ const Table = (props: TableProps) => {
     }
   }, [data, selected, headerSelectRef]);
 
-  function handleBatchCheckboxChange(e: any, data?: any) {
+  function handleRowCheckbox(e: any, id?: any) {
+    if (e.target.checked) {
+      setSelected([...selected, id]);
+    } else {
+      setSelected(selected.filter((item: any) => item !== id));
+    }
+  }
+
+  function handleHeaderCheckbox(e: any, data?: any) {
     if (e.target.checked) {
       setSelected(
         [...selected, ...data].filter(
@@ -72,15 +80,8 @@ const Table = (props: TableProps) => {
     }
   }
 
-  function handleCheckboxChange(e: any, id?: any) {
-    if (e.target.checked) {
-      setSelected([...selected, id]);
-    } else {
-      setSelected(selected.filter((item: any) => item !== id));
-    }
-  }
-
   function handleOrder(headerCellProps: TableHeaderCellProps) {
+    const { property } = headerCellProps;
     let currentOrder =
       order === Order.None
         ? Order.Asc
@@ -88,15 +89,16 @@ const Table = (props: TableProps) => {
         ? Order.Desc
         : Order.None;
     setOrder(currentOrder);
+    setSort(property);
     props.onOrderChange && props.onOrderChange(headerCellProps, currentOrder);
   }
 
   return (
     <PrimaryKeyContext.Provider value={primaryKey}>
       <SelectedContext.Provider value={selected}>
-        <BatchCheckboxSelectContext.Provider value={handleBatchCheckboxChange}>
-          <CheckboxSelectContext.Provider value={handleCheckboxChange}>
-            <OrderContext.Provider value={handleOrder}>
+        <HeaderCheckboxContext.Provider value={handleHeaderCheckbox}>
+          <RowCheckboxContext.Provider value={handleRowCheckbox}>
+            <OrderContext.Provider value={[sort, order, handleOrder]}>
               <table {...getAttributes(props.attributes)}>
                 <thead {...getAttributes(props.header?.attributes)}>
                   <tr {...getAttributes(props.header?.row?.attributes)}>
@@ -109,8 +111,8 @@ const Table = (props: TableProps) => {
                 </tbody>
               </table>
             </OrderContext.Provider>
-          </CheckboxSelectContext.Provider>
-        </BatchCheckboxSelectContext.Provider>
+          </RowCheckboxContext.Provider>
+        </HeaderCheckboxContext.Provider>
       </SelectedContext.Provider>
     </PrimaryKeyContext.Provider>
   );

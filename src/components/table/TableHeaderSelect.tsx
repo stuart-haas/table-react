@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import BatchCheckboxSelectContext from "./context/BatchCheckboxSelectContext";
+import HeaderCheckboxContext from "./context/HeaderCheckboxContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 
 export interface TableHeaderSelectProps {
@@ -9,8 +9,8 @@ export interface TableHeaderSelectProps {
 const TableHeaderSelect = React.forwardRef(
   (props: TableHeaderSelectProps, ref: React.Ref<HTMLInputElement>) => {
     const primaryKey = useContext(PrimaryKeyContext);
-    const batchCheckboxSelect = useContext(BatchCheckboxSelectContext);
-    const {  data } = props;
+    const select = useContext(HeaderCheckboxContext);
+    const { data } = props;
     return (
       <td>
         <input
@@ -18,7 +18,7 @@ const TableHeaderSelect = React.forwardRef(
           ref={ref}
           onChange={(e: any) => {
             const mappedData = data.map((item: any) => item[primaryKey!]);
-            batchCheckboxSelect(e, mappedData);
+            select(e, mappedData);
           }}
         />
       </td>

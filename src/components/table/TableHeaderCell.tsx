@@ -3,8 +3,8 @@ import OrderContext from "./context/OrderContext";
 import TableColumnProps from "./contracts/TableColumnProps";
 import {
   getAttributes,
-  getHeaderCellAttributes,
-  getHeaderCellLabel,
+  getColumnAttributes,
+  getColumnLabel,
 } from "./helpers/functions";
 import { TableRowProps } from "./TableRow";
 
@@ -18,12 +18,21 @@ export type TableHeaderCellProps = DefaultTableHeaderCellProps &
   TableColumnProps;
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
-  const order = useContext(OrderContext);
+  const { sortable } = props;
+  const [sort, order, setOrder] = useContext(OrderContext);
   const attributes = {
-    ...getHeaderCellAttributes(props),
+    ...getColumnAttributes(props),
     ...getAttributes(props.attributes),
   };
-  return <th {...attributes} onClick={() => order(props)}>{getHeaderCellLabel(props)}</th>;
+  return (
+    <th {...attributes} onClick={() => sortable && setOrder(props)}>
+      {getColumnLabel(props, sort, order)}
+    </th>
+  );
+};
+
+TableHeaderCell.defaultProps = {
+  sortable: true,
 };
 
 export default TableHeaderCell;

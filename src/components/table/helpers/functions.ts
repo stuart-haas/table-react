@@ -1,3 +1,4 @@
+import { Order } from '../context/OrderContext';
 import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
 import TableHeaderProps from '../contracts/TableHeaderProps';
 import { TableRowProps } from '../TableRow';
@@ -30,10 +31,10 @@ export function getValue(data: any, property?: string) {
   }
 }
 
-export function getHeaderCellLabel(column: TableColumnProps & TableHeaderProps) {
+export function getColumnLabel(column: TableColumnProps & TableHeaderProps, sort: any, order: Order) {
   const { label, property, rows, columns, data, attributes } = column;
   if (label && typeof label === 'function') {
-    return label({ property, rows, columns, data, attributes });
+    return label({ property, rows, columns, data, attributes, sort, order });
   }
   return label;
 }
@@ -46,7 +47,7 @@ export function getRowAttributes(row: TableRowProps) {
   return attributes;
 }
 
-export function getHeaderCellAttributes(column: TableColumnProps) {
+export function getColumnAttributes(column: TableColumnProps) {
   const { property, columnAttributes } = column;
   if (columnAttributes && typeof columnAttributes === 'function') {
     return columnAttributes({ property });
@@ -54,7 +55,7 @@ export function getHeaderCellAttributes(column: TableColumnProps) {
   return columnAttributes;
 }
 
-export function getDataCellAttributes(row: TableRowProps, column: TableColumnProps) {
+export function getDataAttributes(row: TableRowProps, column: TableColumnProps) {
   const { data, index } = row;
   const { dataAttributes } = column;
   if (dataAttributes && typeof dataAttributes === 'function') {

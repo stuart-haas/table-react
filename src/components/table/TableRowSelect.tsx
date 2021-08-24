@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import CheckboxSelectContext from "./context/CheckboxSelectContext";
+import RowCheckboxContext from "./context/RowCheckboxContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
 import SelectedContext from "./context/SelectedContext";
 
@@ -10,7 +10,7 @@ export interface TableRowSelectProps {
 const TableRowSelect = (props: TableRowSelectProps) => {
   const selected = useContext(SelectedContext);
   const primaryKey = useContext(PrimaryKeyContext);
-  const checkboxSelect = useContext(CheckboxSelectContext);
+  const select = useContext(RowCheckboxContext);
   const { data } = props;
   return (
     <td>
@@ -19,9 +19,7 @@ const TableRowSelect = (props: TableRowSelectProps) => {
         checked={
           selected.find((item: any) => item === data[primaryKey!]) || false
         }
-        onChange={(e: any) =>
-          checkboxSelect(e, data[primaryKey!])
-        }
+        onChange={(e: any) => select(e, data[primaryKey!])}
       />
     </td>
   );

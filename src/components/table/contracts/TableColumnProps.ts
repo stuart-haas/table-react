@@ -1,3 +1,4 @@
+import { Order } from "../context/OrderContext";
 import { TableRowProps } from "../TableRow";
 
 export interface AttributesData {
@@ -20,6 +21,8 @@ export interface LabelData extends RenderData {
     rows?: TableRowProps;
     attributes?: object | AttributesCallback;
     tag?: string;
+    sort?: any;
+    order?: Order;
 };
 
 export interface RenderCallback {
@@ -40,6 +43,7 @@ interface TableColumnProps {
     dataAttributes?: object | AttributesCallback;
     columnAttributes?: object | AttributesCallback;
     attributes?: object | AttributesCallback;
+    sortable?: boolean;
 }
 
 export default TableColumnProps;
