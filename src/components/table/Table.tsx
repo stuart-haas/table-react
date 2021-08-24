@@ -26,15 +26,15 @@ export interface TableProps {
 }
 
 const Table = (props: TableProps) => {
-  const { primaryKey } = props;
+  const { data, primaryKey } = props;
   const [selected, setSelected] = useState<any>([]);
   const headerSelectRef = createRef<any>();
 
   useEffect(() => {
-    if (selected.length && selected.length !== props.data!.length) {
+    if (selected.length && selected.length !== data!.length) {
       headerSelectRef.current.indeterminate = true;
     }
-    if (selected.length && selected.length === props.data!.length) {
+    if (selected.length && selected.length === data!.length) {
       headerSelectRef.current.indeterminate = false;
       headerSelectRef.current.checked = true;
     }
@@ -42,7 +42,7 @@ const Table = (props: TableProps) => {
       headerSelectRef.current.indeterminate = false;
       headerSelectRef.current.checked = false;
     }
-  }, [props.data, selected, headerSelectRef]);
+  }, [data, selected, headerSelectRef]);
 
   function handleBatchCheckboxChange(e: any, data?: any) {
     if (e.target.checked) {
