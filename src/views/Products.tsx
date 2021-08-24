@@ -69,8 +69,7 @@ const Products = (props: ProductsProps) => {
   }
 
   async function handleDelete(renderData: RenderData) {
-    if (!window.confirm("Are you sure you want to delete this product?"))
-      return;
+    if(!window.confirm('Are you sure you want to delete this product?')) return;
     const { id } = renderData.data;
     await api.delete(`/${namespace}/${id}`);
     setData(data.filter((item: any) => item.id !== id));
