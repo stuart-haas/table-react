@@ -23,9 +23,13 @@ export interface TableProps {
 }
 
 const Table = (props: TableProps) => {
-  const { primaryKey } = props;
   const [selected, setSelected] = useState<any>([]);
+  const [primaryKey, setPrimaryKey] = useState<any>([]);
   const headerCheckbox = createRef<any>();
+
+  useEffect(() => {
+    setPrimaryKey(props.primaryKey);
+  }, [props.primaryKey]);
 
   useEffect(() => {
     if (props.checkboxSelection) {
