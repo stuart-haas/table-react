@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "services/api";
 import { buildUrl } from "./functions";
 
@@ -7,11 +7,9 @@ export const useFetch = (path: string, params?: any) => {
     const [error, setError] = useState<any>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const url = useMemo(() => {
-        return buildUrl(path, params);
-    }, [path, params]);
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
+        const url = buildUrl(path, params);
         const fetchData = async () => {
             setIsLoading(true);
             api.get(url.toString())
@@ -24,7 +22,7 @@ export const useFetch = (path: string, params?: any) => {
                 })
         };
         fetchData();
-    }, [url]);
+    }, []);
 
     return { data, error, isLoading };
 }

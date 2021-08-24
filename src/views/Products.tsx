@@ -11,13 +11,18 @@ import { Order } from "components/table/context/OrderContext";
 import { useFetch } from "utils/hooks";
 interface ProductsProps {
   namespace: string;
+  sort?: string;
+  order?: Order;
 }
 
 const Products = (props: ProductsProps) => {
-  const { namespace } = props;
+  const { sort, order, namespace } = props;
   const [data, setData] = useState<any>([]);
 
-  const { data: initData } = useFetch(namespace);
+  const { data: initData } = useFetch(namespace, {
+    _sort: sort,
+    _order: order,
+  });
 
   useEffect(() => {
     setData(initData);
@@ -25,6 +30,8 @@ const Products = (props: ProductsProps) => {
 
   const tableProps: TableProps = {
     attributes,
+    sort,
+    order,
     columns: [
       {
         sortable: false,

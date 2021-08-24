@@ -25,6 +25,7 @@ export interface TableProps {
   data?: Array<any>;
   selected?: Array<any>;
   attributes?: object | AttributesCallback;
+  sort?: string;
   order?: Order;
   onOrderChange?: (headerCellProps: TableHeaderCellProps, order: Order) => void;
   onSelectChange?: (data: Array<any>) => void;
@@ -36,6 +37,10 @@ const Table = (props: TableProps) => {
   const [selected, setSelected] = useState<any>([]);
   const [order, setOrder] = useState<Order>();
   const [sort, setSort] = useState<any>();
+
+  useEffect(() => {
+    setSort(props.sort);
+  }, [props.sort]);
 
   useEffect(() => {
     setOrder(props.order);
