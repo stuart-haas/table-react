@@ -48,6 +48,10 @@ const Products = (props: ProductsProps) => {
         property: "description",
       },
       {
+        label: sortableLabel("Inventory"),
+        property: "inventory",
+      },
+      {
         label: sortableLabel("Price"),
         property: "price",
         render: priceColumn(),

@@ -4,36 +4,42 @@
       "id": 1,
       "name": "Pumpkin",
       "description": "A large gourd",
+      "inventory": 5,
       "price": 10
     },
     {
       "id": 2,
       "name": "Tomato",
       "description": "Often mistaken for a vegetable",
+      "inventory": 12,
       "price": 5
     },
     {
       "id": 3,
       "name": "Apple",
       "description": "Watch out for worms",
+      "inventory": 20,
       "price": 3
     },
     {
       "id": 4,
       "name": "Potato",
       "description": "Don't forget the starch",
+      "inventory": 15,
       "price": 4
     },
     {
       "id": 5,
       "name": "Onion",
       "description": "Don't cry",
+      "inventory": 8,
       "price": 2
     },
     {
       "id": 6,
       "name": "Watermelon",
-      "description": "Best when crispy",
+      "description": "Best when juicy",
+      "inventory": 2,
       "price": 7
     }
   ]
