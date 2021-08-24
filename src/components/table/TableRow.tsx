@@ -12,13 +12,12 @@ export interface TableRowProps {
   data?: any;
   attributes?: object | AttributesCallback;
   rows?: TableRowProps;
-  selectChange?: (e: any, data?: any) => void;
 }
 
 const TableRow = (props: TableRowProps) => {
   return (
     <tr {...getRowAttributes(props)}>
-      <TableRowSelect data={props.data} selectChange={props.selectChange} />
+      <TableRowSelect data={props.data} />
       {props.columns &&
         props.columns.map((column: TableColumnProps, index: number) => {
           const cellProps = { row: props, column };

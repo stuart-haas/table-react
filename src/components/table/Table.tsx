@@ -11,6 +11,8 @@ import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeaderSelect from "./TableHeaderSelect";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
+import CheckboxSelectContext from "./context/CheckboxSelectContext";
+import BatchCheckboxSelectContext from "./context/BatchCheckboxSelectContext";
 
 export interface TableProps {
   primaryKey?: string;
@@ -24,14 +26,9 @@ export interface TableProps {
 }
 
 const Table = (props: TableProps) => {
+  const { primaryKey } = props;
   const [selected, setSelected] = useState<any>([]);
-  const [primaryKey, setPrimaryKey] = useState<any>([]);
   const headerSelectRef = createRef<any>();
-  const rowsProps = { ...props, selectChange: handlSelectChange };
-
-  useEffect(() => {
-    setPrimaryKey(props.primaryKey);
-  }, [props.primaryKey]);
 
   useEffect(() => {
     if (selected.length && selected.length !== props.data!.length) {
@@ -47,7 +44,7 @@ const Table = (props: TableProps) => {
     }
   }, [props.data, selected, headerSelectRef]);
 
-  function handleBatchSelectChange(e: any, data?: any) {
+  function handleBatchCheckboxChange(e: any, data?: any) {
     if (e.target.checked) {
       setSelected(
         [...selected, ...data].filter(
@@ -60,7 +57,7 @@ const Table = (props: TableProps) => {
     }
   }
 
-  function handlSelectChange(e: any, id?: any) {
+  function handleCheckboxChange(e: any, id?: any) {
     if (e.target.checked) {
       setSelected([...selected, id]);
     } else {
@@ -71,21 +68,21 @@ const Table = (props: TableProps) => {
   return (
     <PrimaryKeyContext.Provider value={primaryKey}>
       <SelectedContext.Provider value={selected}>
-        <table {...getAttributes(props.attributes)}>
-          <thead {...getAttributes(props.header?.attributes)}>
-            <tr {...getAttributes(props.header?.row?.attributes)}>
-              <TableHeaderSelect
-                data={props.data}
-                ref={headerSelectRef}
-                batchSelectChange={handleBatchSelectChange}
-              />
-              <TableHeader {...props} />
-            </tr>
-          </thead>
-          <tbody {...getAttributes(props.body?.attributes)}>
-            <TableRows {...rowsProps} />
-          </tbody>
-        </table>
+        <BatchCheckboxSelectContext.Provider value={handleBatchCheckboxChange}>
+          <CheckboxSelectContext.Provider value={handleCheckboxChange}>
+            <table {...getAttributes(props.attributes)}>
+              <thead {...getAttributes(props.header?.attributes)}>
+                <tr {...getAttributes(props.header?.row?.attributes)}>
+                  <TableHeaderSelect ref={headerSelectRef} {...props} />
+                  <TableHeader {...props} />
+                </tr>
+              </thead>
+              <tbody {...getAttributes(props.body?.attributes)}>
+                <TableRows {...props} />
+              </tbody>
+            </table>
+          </CheckboxSelectContext.Provider>
+        </BatchCheckboxSelectContext.Provider>
       </SelectedContext.Provider>
     </PrimaryKeyContext.Provider>
   );

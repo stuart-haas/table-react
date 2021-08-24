@@ -9,7 +9,6 @@ const TableRows = (props: TableRowProps) => {
       columns={props.columns}
       data={data}
       attributes={props.rows?.attributes}
-      selectChange={props.selectChange}
     />
   ));
 };
