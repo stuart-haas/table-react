@@ -4,7 +4,7 @@ import {
   RenderData,
 } from "components/table/contracts/TableColumnProps";
 import { TableProps } from "components/table/Table";
-import { actions, attributes, editColumn, priceColumn, sortableLabel } from "config/table";
+import { actions, attributes, editCell, priceCell, sortableLabel } from "config/table";
 import api from "services/api";
 import { TableHeaderCellProps } from "components/table/TableHeaderCell";
 import { Order } from "components/table/context/OrderContext";
@@ -41,7 +41,7 @@ const Products = (props: ProductsProps) => {
       {
         label: sortableLabel("Name"),
         property: "name",
-        render: editColumn({ handleEdit }),
+        render: editCell({ handleEdit }),
       },
       {
         label: sortableLabel("Description"),
@@ -54,7 +54,10 @@ const Products = (props: ProductsProps) => {
       {
         label: sortableLabel("Price"),
         property: "price",
-        render: priceColumn(),
+        render: priceCell(),
+        attributes: {
+          className: "text-end",
+        },
       },
       ...actions({
         edit: handleEdit,

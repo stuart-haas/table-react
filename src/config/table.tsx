@@ -7,6 +7,11 @@ import {
 } from "components/table/contracts/TableColumnProps";
 import React, { Fragment } from "react";
 
+export const attributes = () => {
+  return {
+    className: "table table-borderless table-striped",
+  };
+};
 export interface TableActions {
   edit?: (data?: any) => void;
   delete?: (data?: any) => void;
@@ -41,11 +46,11 @@ export const sortableLabel = (label: string) => (labelData: LabelData) => {
   return <OrderIcon {...props} />;
 };
 
-export interface EditColumnProps {
+export interface editCellProps {
   handleEdit: (renderData: RenderData) => void;
 }
 
-export const editColumn = (props: EditColumnProps) => (renderData: RenderData) => {
+export const editCell = (props: editCellProps) => (renderData: RenderData) => {
   const { handleEdit } = props;
   const { value } = renderData;
   return (
@@ -59,13 +64,7 @@ export const editColumn = (props: EditColumnProps) => (renderData: RenderData) =
   );
 };
 
-export const priceColumn = () => (renderData: RenderData) => {
+export const priceCell = () => (renderData: RenderData) => {
   const { value } = renderData;
-  return `$${value}`;
+  return `$${parseFloat(String(value)).toFixed(2)}`;
 }
-
-export const attributes = () => {
-  return {
-    className: "table table-borderless table-striped",
-  };
-};
