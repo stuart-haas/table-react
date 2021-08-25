@@ -52,11 +52,13 @@
   "stores": [
     {
       "id": 1,
-      "name": "Farmers Market"
+      "name": "Farmers Market",
+      "description": "Let's go to market"
     },
     {
       "id": 2,
-      "name": "Super Market"
+      "name": "Super Market",
+      "description": "Big boxes"
     }
   ]
 }
