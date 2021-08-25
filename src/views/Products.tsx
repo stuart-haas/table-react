@@ -21,6 +21,7 @@ const Products = (model: ProductsModel) => {
   const { data: initData } = useFetch(namespace, {
     _sort: sort,
     _order: order,
+    _expand: 'store',
   });
 
   useEffect(() => {
@@ -41,6 +42,10 @@ const Products = (model: ProductsModel) => {
         label: sortableLabel("Name"),
         property: "name",
         render: editCell({ handleEdit }),
+      },
+      {
+        label: "Store",
+        property: "store.name",
       },
       {
         label: sortableLabel("Description"),
@@ -70,8 +75,8 @@ const Products = (model: ProductsModel) => {
     const { model, order } = event;
     const { property } = model;
     const params = [Order.Asc, Order.Desc].includes(order)
-      ? `?_sort=${property}&_order=${order}`
-      : Order.Natural;
+      ? `?_sort=${property}&_order=${order}&_expand=store`
+      : `${Order.Natural}?_expand=store`;
     const { data } = await api.get(`/${namespace}${params}`);
     setData(data);
   }
