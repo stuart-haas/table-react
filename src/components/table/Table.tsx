@@ -90,11 +90,11 @@ const Table = (props: TableProps) => {
   function handleSetOrder(headerCellProps: TableHeaderCellProps) {
     const { property } = headerCellProps;
     let currentOrder =
-      order === Order.None
+      order === Order.Natural
         ? Order.Asc
         : order === Order.Asc
         ? Order.Desc
-        : Order.None;
+        : Order.Natural;
     setOrder(currentOrder);
     setSort(property);
     props.onOrderChange && props.onOrderChange(headerCellProps, currentOrder);
@@ -127,7 +127,7 @@ const Table = (props: TableProps) => {
 
 Table.defaultProps = {
   primaryKey: "id",
-  order: Order.None,
+  order: Order.Natural,
   selected: [],
 };
 

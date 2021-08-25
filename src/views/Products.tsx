@@ -74,7 +74,7 @@ const Products = (props: ProductsProps) => {
     const { property } = headerCellProps;
     const params = [Order.Asc, Order.Desc].includes(order)
       ? `?_sort=${property}&_order=${order}`
-      : Order.None;
+      : Order.Natural;
     const { data } = await api.get(`/${namespace}${params}`);
     setData(data);
   }

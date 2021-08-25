@@ -10,7 +10,7 @@ export interface IOrderContext {
 export enum Order {
   Asc = "asc",
   Desc = "desc",
-  None = "",
+  Natural = "",
 }
 
 const OrderContext = createContext<Partial<IOrderContext>>({});

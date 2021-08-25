@@ -15,7 +15,7 @@ const OrderIcon = (props: OrderIconProps) => {
       ? "bi bi-sort-up"
       : order === Order.Desc
       ? "bi bi-sort-down"
-      : Order.None;
+      : Order.Natural;
   return (
     <span className="user-select-none" role="button">
       <span className="me-2">{label}</span>
