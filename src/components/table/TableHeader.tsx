@@ -1,27 +1,27 @@
 import React, { Fragment } from "react";
-import TableColumnProps from "./contracts/TableColumnProps";
+import TableColumnModel from "./models/TableColumnModel";
 import TableHeaderCell from "./TableHeaderCell";
-import { TableRowProps } from "./TableRow";
+import { TableRowModel } from "./TableRow";
 
-export interface TableHeaderProps {
-  columns: Array<TableColumnProps>;
-  rows?: TableRowProps;
+export interface TableHeaderModel {
+  columns: Array<TableColumnModel>;
+  rows?: TableRowModel;
   data?: Array<any>;
 }
 
-const TableHeader = (props: TableHeaderProps) => {
-  const { columns, rows, data } = props;
+const TableHeader = (model: TableHeaderModel) => {
+  const { columns, rows, data } = model;
   return (
     <Fragment>
-      {props.columns &&
-        props.columns.map((column: TableColumnProps, index: number) => {
-          const cellProps = {
+      {model.columns &&
+        model.columns.map((column: TableColumnModel, index: number) => {
+          const cellModel = {
             ...column,
             columns,
             rows,
             data,
           };
-          return <TableHeaderCell key={index} {...cellProps} />
+          return <TableHeaderCell key={index} {...cellModel} />
         })}
     </Fragment>
   );

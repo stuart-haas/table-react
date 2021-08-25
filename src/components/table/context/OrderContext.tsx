@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import { TableHeaderCellProps } from "../TableHeaderCell";
+import { TableHeaderCellModel } from "../TableHeaderCell";
 
 export interface IOrderContext {
   sort: string|null;
   order: Order;
-  handleSetOrder: (props: TableHeaderCellProps) => void;
+  handleSetOrder: (model: TableHeaderCellModel) => void;
 }
 
 export enum Order {

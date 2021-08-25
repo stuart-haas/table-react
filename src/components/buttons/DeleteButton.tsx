@@ -1,8 +1,8 @@
 import React from "react";
 
-const DeleteButton = (props: any) => {
+const DeleteButton = (model: any) => {
     return (
-        <i className="bi bi-trash-fill" role="button" {...props}></i>
+        <i className="bi bi-trash-fill" role="button" {...model}></i>
     );
 }
 

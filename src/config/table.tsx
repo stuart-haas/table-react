@@ -4,7 +4,7 @@ import OrderIcon from "components/icons/OrderIcon";
 import {
   LabelData,
   RenderData,
-} from "components/table/contracts/TableColumnProps";
+} from "components/table/models/TableColumnModel";
 import React, { Fragment } from "react";
 
 export const attributes = () => {
@@ -17,7 +17,7 @@ export interface TableActions {
   delete?: (data?: any) => void;
 }
 
-export const actions = (props: TableActions) => {
+export const actions = (actions: TableActions) => {
   return [
     {
       label: "Actions",
@@ -27,11 +27,11 @@ export const actions = (props: TableActions) => {
       render: (renderData: RenderData) => {
         return (
           <Fragment>
-            {props.edit && (
-              <EditButton onClick={() => props.edit!(renderData)} />
+            {actions.edit && (
+              <EditButton onClick={() => actions.edit!(renderData)} />
             )}
-            {props.delete && (
-              <DeleteButton onClick={() => props.delete!(renderData)} />
+            {actions.delete && (
+              <DeleteButton onClick={() => actions.delete!(renderData)} />
             )}
           </Fragment>
         );
@@ -42,16 +42,16 @@ export const actions = (props: TableActions) => {
 
 export const sortableLabel = (label: string) => (labelData: LabelData) => {
   const { sort, order, property } = labelData;
-  const props = { label, sort, order, property };
-  return <OrderIcon {...props} />;
+  const model = { label, sort, order, property };
+  return <OrderIcon {...model} />;
 };
 
-export interface EditCellProps {
+export interface EditCellModel {
   handleEdit: (renderData: RenderData) => void;
 }
 
-export const editCell = (props: EditCellProps) => (renderData: RenderData) => {
-  const { handleEdit } = props;
+export const editCell = (model: EditCellModel) => (renderData: RenderData) => {
+  const { handleEdit } = model;
   const { value } = renderData;
   return (
     <button

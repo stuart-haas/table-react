@@ -1,15 +1,15 @@
 import React from "react";
-import { TableRowProps } from "./TableRow";
+import { TableRowModel } from "./TableRow";
 import { getAttributes, getDataAttributes, render } from "./helpers/functions";
-import TableColumnProps from "./contracts/TableColumnProps";
+import TableColumnModel from "./models/TableColumnModel";
 
-export interface TableDataCellProps {
-  row: TableRowProps;
-  column: TableColumnProps;
+export interface TableDataCellModel {
+  row: TableRowModel;
+  column: TableColumnModel;
 }
 
-const TableDataCell = (props: TableDataCellProps) => {
-  const { row, column } = props;
+const TableDataCell = (model: TableDataCellModel) => {
+  const { row, column } = model;
   const attributes = {...getDataAttributes(row, column), ...getAttributes(column.attributes)}
   return (
     <td {...attributes}>

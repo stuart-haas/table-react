@@ -2,15 +2,15 @@ import React, { ChangeEvent } from "react";
 import { useHeaderCheckboxContext } from "./context/HeaderCheckboxContext";
 import { usePrimaryKeyContext } from "./context/PrimaryKeyContext";
 
-export interface TableHeaderSelectProps {
+export interface TableHeaderSelectModel {
   data?: any;
 }
 
 const TableHeaderSelect = React.forwardRef(
-  (props: TableHeaderSelectProps, ref: React.Ref<HTMLInputElement>) => {
+  (model: TableHeaderSelectModel, ref: React.Ref<HTMLInputElement>) => {
     const { primaryKey } = usePrimaryKeyContext();
     const { handleHeaderCheckbox } = useHeaderCheckboxContext();
-    const { data } = props;
+    const { data } = model;
     return (
       <td>
         <input

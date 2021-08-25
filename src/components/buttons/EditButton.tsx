@@ -1,8 +1,8 @@
 import React from "react";
 
-const EditButton = (props: any) => {
+const EditButton = (model: any) => {
     return (
-        <i className="bi bi-pencil-square me-2" role="button" {...props}></i>
+        <i className="bi bi-pencil-square me-2" role="button" {...model}></i>
     );
 }
 

@@ -3,15 +3,15 @@ import { useRowCheckboxContext } from "./context/RowCheckboxContext";
 import { usePrimaryKeyContext } from "./context/PrimaryKeyContext";
 import { useSelectedContext } from "./context/SelectedContext";
 
-export interface TableRowSelectProps {
+export interface TableRowSelectModel {
   data?: any;
 }
 
-const TableRowSelect = (props: TableRowSelectProps) => {
+const TableRowSelect = (model: TableRowSelectModel) => {
   const selected = useSelectedContext();
   const { primaryKey } = usePrimaryKeyContext();
   const { handleRowCheckbox } = useRowCheckboxContext();
-  const { data } = props;
+  const { data } = model;
   return (
     <td>
       <input

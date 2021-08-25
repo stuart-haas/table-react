@@ -1,11 +1,11 @@
 import { Order } from '../context/OrderContext';
-import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
-import TableHeaderProps from '../contracts/TableHeaderProps';
-import { TableRowProps } from '../TableRow';
+import TableColumnModel, { AttributesCallback } from '../models/TableColumnModel';
+import TableHeaderModel from '../models/TableHeaderModel';
+import { TableRowModel } from '../TableRow';
 // @ts-ignore
 import resolvePath from 'object-resolve-path';
 
-export function render(row: TableRowProps, column: TableColumnProps) {
+export function render(row: TableRowModel, column: TableColumnModel) {
   const { data, index } = row;
   const { property, render } = column;
   try {
@@ -33,7 +33,7 @@ export function getValue(data: any, property?: string) {
   }
 }
 
-export function getColumnLabel(column: TableColumnProps & TableHeaderProps, sort: any, order?: Order) {
+export function getColumnLabel(column: TableColumnModel & TableHeaderModel, sort: any, order?: Order) {
   const { label, property, rows, columns, data, attributes } = column;
   if (label && typeof label === 'function') {
     return label({ property, rows, columns, data, attributes, sort, order });
@@ -41,7 +41,7 @@ export function getColumnLabel(column: TableColumnProps & TableHeaderProps, sort
   return label;
 }
 
-export function getRowAttributes(row: TableRowProps) {
+export function getRowAttributes(row: TableRowModel) {
   const { data, index, columns, attributes } = row;
   if (attributes && typeof attributes === 'function') {
     return attributes({ data, columns, index });
@@ -49,7 +49,7 @@ export function getRowAttributes(row: TableRowProps) {
   return attributes;
 }
 
-export function getColumnAttributes(column: TableColumnProps) {
+export function getColumnAttributes(column: TableColumnModel) {
   const { property, columnAttributes } = column;
   if (columnAttributes && typeof columnAttributes === 'function') {
     return columnAttributes({ property });
@@ -57,7 +57,7 @@ export function getColumnAttributes(column: TableColumnProps) {
   return columnAttributes;
 }
 
-export function getDataAttributes(row: TableRowProps, column: TableColumnProps) {
+export function getDataAttributes(row: TableRowModel, column: TableColumnModel) {
   const { data, index } = row;
   const { dataAttributes } = column;
   if (dataAttributes && typeof dataAttributes === 'function') {

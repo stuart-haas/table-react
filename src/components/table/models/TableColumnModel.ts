@@ -1,12 +1,12 @@
 import { Order } from "../context/OrderContext";
-import { TableRowProps } from "../TableRow";
+import { TableRowModel } from "../TableRow";
 
 export interface AttributesData {
     property?: string;
     data?: any;
     value?: string | number;
     index?: number;
-    columns?: Array<TableColumnProps>;
+    columns?: Array<TableColumnModel>;
  };
 
 export interface RenderData {
@@ -14,11 +14,11 @@ export interface RenderData {
     data?: any;
     value?: string | number;
     index?: number;
-    columns?: Array<TableColumnProps>;
+    columns?: Array<TableColumnModel>;
 };
 
 export interface LabelData extends RenderData {
-    rows?: TableRowProps;
+    rows?: TableRowModel;
     attributes?: object | AttributesCallback;
     tag?: string;
     sort?: any;
@@ -36,7 +36,7 @@ export interface LabelCallback {
     (callback: LabelData): void;
 }
 
-interface TableColumnProps {
+interface TableColumnModel {
     property?: string;
     label?: string | LabelCallback;
     render?: string | number | RenderCallback;
@@ -46,4 +46,4 @@ interface TableColumnProps {
     sortable?: boolean;
 }
 
-export default TableColumnProps;
+export default TableColumnModel;

@@ -1,14 +1,14 @@
 import React from "react";
-import TableRow, { TableRowProps } from "./TableRow";
+import TableRow, { TableRowModel } from "./TableRow";
 
-const TableRows = (props: TableRowProps) => {
-  return props.data?.map((data: TableRowProps, index: number) => (
+const TableRows = (model: TableRowModel) => {
+  return model.data?.map((data: TableRowModel, index: number) => (
     <TableRow
       key={index}
       index={index}
-      columns={props.columns}
+      columns={model.columns}
       data={data}
-      attributes={props.rows?.attributes}
+      attributes={model.rows?.attributes}
     />
   ));
 };

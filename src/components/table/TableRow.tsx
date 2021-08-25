@@ -1,27 +1,27 @@
 import React from "react";
-import TableColumnProps, {
+import TableColumnModel, {
   AttributesCallback,
-} from "./contracts/TableColumnProps";
+} from "./models/TableColumnModel";
 import { getRowAttributes } from "./helpers/functions";
 import TableDataCell from "./TableDataCell";
 import TableRowSelect from "./TableRowSelect";
 
-export interface TableRowProps {
+export interface TableRowModel {
   index?: number;
-  columns?: Array<TableColumnProps>;
+  columns?: Array<TableColumnModel>;
   data?: any;
   attributes?: object | AttributesCallback;
-  rows?: TableRowProps;
+  rows?: TableRowModel;
 }
 
-const TableRow = (props: TableRowProps) => {
+const TableRow = (model: TableRowModel) => {
   return (
-    <tr {...getRowAttributes(props)}>
-      <TableRowSelect data={props.data} />
-      {props.columns &&
-        props.columns.map((column: TableColumnProps, index: number) => {
-          const cellProps = { row: props, column };
-          return <TableDataCell key={index} {...cellProps} />;
+    <tr {...getRowAttributes(model)}>
+      <TableRowSelect data={model.data} />
+      {model.columns &&
+        model.columns.map((column: TableColumnModel, index: number) => {
+          const cellModel = { row: model, column };
+          return <TableDataCell key={index} {...cellModel} />;
         })}
     </tr>
   );

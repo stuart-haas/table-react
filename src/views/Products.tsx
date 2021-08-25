@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Table, { OrderChangeModel } from "components/table/Table";
+import Table, { OrderChangeEvent } from "components/table/Table";
 import {
   RenderData,
-} from "components/table/contracts/TableColumnProps";
-import { TableProps } from "components/table/Table";
+} from "components/table/models/TableColumnModel";
+import { TableModel } from "components/table/Table";
 import { actions, attributes, editCell, priceCell, sortableLabel } from "config/table";
 import api from "services/api";
-import { TableHeaderCellProps } from "components/table/TableHeaderCell";
 import { Order } from "components/table/context/OrderContext";
 import { useFetch } from "utils/hooks";
-interface ProductsProps {
+interface ProductsModel {
   namespace: string;
   sort?: string;
   order?: Order;
 }
 
-const Products = (props: ProductsProps) => {
-  const { sort, order, namespace } = props;
+const Products = (model: ProductsModel) => {
+  const { sort, order, namespace } = model;
   const [data, setData] = useState<any>([]);
 
   const { data: initData } = useFetch(namespace, {
@@ -28,7 +27,7 @@ const Products = (props: ProductsProps) => {
     setData(initData);
   }, [initData]);
 
-  const tableProps: TableProps = {
+  const tableModel: TableModel = {
     attributes,
     sort,
     order,
@@ -67,9 +66,9 @@ const Products = (props: ProductsProps) => {
     data,
   };
 
-  async function handleOrder(model: OrderChangeModel) {
-    const { props, order } = model;
-    const { property } = props;
+  async function handleOrder(event: OrderChangeEvent) {
+    const { model, order } = event;
+    const { property } = model;
     const params = [Order.Asc, Order.Desc].includes(order)
       ? `?_sort=${property}&_order=${order}`
       : Order.Natural;
@@ -93,7 +92,7 @@ const Products = (props: ProductsProps) => {
 
   return (
     <Table
-      {...tableProps}
+      {...tableModel}
       onOrderChange={handleOrder}
     />
   );

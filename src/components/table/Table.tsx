@@ -1,42 +1,42 @@
 import React, { createRef, useEffect, useState } from "react";
-import TableColumnProps, {
+import TableColumnModel, {
   AttributesCallback,
-} from "./contracts/TableColumnProps";
+} from "./models/TableColumnModel";
 import { getAttributes } from "./helpers/functions";
-import { TableRowProps } from "./TableRow";
+import { TableRowModel } from "./TableRow";
 import SelectedContext from "./context/SelectedContext";
 import PrimaryKeyContext from "./context/PrimaryKeyContext";
-import TableHeaderProps from "./contracts/TableHeaderProps";
-import TableBodyProps from "./contracts/TableBodyProps";
+import TableHeaderModel from "./models/TableHeaderModel";
+import TableBodyModel from "./models/TableBodyModel";
 import TableHeaderSelect from "./TableHeaderSelect";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
 import RowCheckboxContext, { IRowCheckboxContextModel } from "./context/RowCheckboxContext";
 import OrderContext, { Order } from "./context/OrderContext";
-import { TableHeaderCellProps } from "./TableHeaderCell";
+import { TableHeaderCellModel } from "./TableHeaderCell";
 import HeaderCheckboxContext, { IHeaderCheckboxContextModel } from "./context/HeaderCheckboxContext";
 
-export interface OrderChangeModel {
-  props: TableHeaderCellProps;
+export interface OrderChangeEvent {
+  model: TableHeaderCellModel;
   order: Order;
 }
 
-export interface TableProps {
+export interface TableModel {
   primaryKey?: string;
-  header?: TableHeaderProps;
-  body?: TableBodyProps;
-  columns: Array<TableColumnProps>;
-  rows?: TableRowProps;
+  header?: TableHeaderModel;
+  body?: TableBodyModel;
+  columns: Array<TableColumnModel>;
+  rows?: TableRowModel;
   data?: Array<any>;
   selected?: Array<any>;
   attributes?: object | AttributesCallback;
   sort?: string;
   order?: Order;
-  onOrderChange?: (model: OrderChangeModel) => void;
+  onOrderChange?: (model: OrderChangeEvent) => void;
   onSelectChange?: (data: Array<any>) => void;
 }
 
-const Table = (props: TableProps) => {
+const Table = (props: TableModel) => {
   const { data, primaryKey } = props;
   const headerSelectRef = createRef<any>();
   const [selected, setSelected] = useState<any>([]);
@@ -92,8 +92,8 @@ const Table = (props: TableProps) => {
     }
   }
 
-  function handleSetOrder(headerCellProps: TableHeaderCellProps) {
-    const { property } = headerCellProps;
+  function handleSetOrder(model: TableHeaderCellModel) {
+    const { property } = model;
     let currentOrder =
       order === Order.Natural
         ? Order.Asc
@@ -102,7 +102,7 @@ const Table = (props: TableProps) => {
         : Order.Natural;
     setOrder(currentOrder);
     setSort(property);
-    props.onOrderChange && props.onOrderChange({ props: headerCellProps, order: currentOrder });
+    props.onOrderChange && props.onOrderChange({ model, order: currentOrder });
   }
 
   return (

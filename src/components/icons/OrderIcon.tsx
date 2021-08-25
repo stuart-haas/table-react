@@ -1,15 +1,15 @@
 import React from "react";
 import { Order } from "components/table/context/OrderContext";
 
-export interface OrderIconProps {
+export interface OrderIconModel {
   sort?: any;
   order?: Order;
   label: string;
   property?: any;
 }
 
-const OrderIcon = (props: OrderIconProps) => {
-  const { property, sort, order, label } = props;
+const OrderIcon = (model: OrderIconModel) => {
+  const { property, sort, order, label } = model;
   const className =
     order === Order.Asc
       ? "bi bi-sort-up"
