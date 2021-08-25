@@ -46,11 +46,11 @@ export const sortableLabel = (label: string) => (labelData: LabelData) => {
   return <OrderIcon {...props} />;
 };
 
-export interface editCellProps {
+export interface EditCellProps {
   handleEdit: (renderData: RenderData) => void;
 }
 
-export const editCell = (props: editCellProps) => (renderData: RenderData) => {
+export const editCell = (props: EditCellProps) => (renderData: RenderData) => {
   const { handleEdit } = props;
   const { value } = renderData;
   return (

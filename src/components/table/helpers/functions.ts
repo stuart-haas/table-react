@@ -2,6 +2,8 @@ import { Order } from '../context/OrderContext';
 import TableColumnProps, { AttributesCallback } from '../contracts/TableColumnProps';
 import TableHeaderProps from '../contracts/TableHeaderProps';
 import { TableRowProps } from '../TableRow';
+// @ts-ignore
+import resolvePath from 'object-resolve-path';
 
 export function render(row: TableRowProps, column: TableColumnProps) {
   const { data, index } = row;
@@ -21,8 +23,8 @@ export function render(row: TableRowProps, column: TableColumnProps) {
 }
 
 export function getValue(data: any, property?: string) {
-  if (property && data[property]) {
-    return data[property];
+  if (property && resolvePath(data, property)) {
+    return resolvePath(data, property);
   } else {
     if (typeof property !== 'undefined') {
       // eslint-disable-next-line no-throw-literal
