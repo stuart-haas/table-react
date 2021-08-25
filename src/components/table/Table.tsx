@@ -16,6 +16,11 @@ import OrderContext, { Order } from "./context/OrderContext";
 import { TableHeaderCellProps } from "./TableHeaderCell";
 import HeaderCheckboxContext, { IHeaderCheckboxContextModel } from "./context/HeaderCheckboxContext";
 
+export interface OrderChangeModel {
+  props: TableHeaderCellProps;
+  order: Order;
+}
+
 export interface TableProps {
   primaryKey?: string;
   header?: TableHeaderProps;
@@ -27,7 +32,7 @@ export interface TableProps {
   attributes?: object | AttributesCallback;
   sort?: string;
   order?: Order;
-  onOrderChange?: (headerCellProps: TableHeaderCellProps, order: Order) => void;
+  onOrderChange?: (model: OrderChangeModel) => void;
   onSelectChange?: (data: Array<any>) => void;
 }
 
@@ -97,7 +102,7 @@ const Table = (props: TableProps) => {
         : Order.Natural;
     setOrder(currentOrder);
     setSort(property);
-    props.onOrderChange && props.onOrderChange(headerCellProps, currentOrder);
+    props.onOrderChange && props.onOrderChange({ props: headerCellProps, order: currentOrder });
   }
 
   return (

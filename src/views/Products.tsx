@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Table from "components/table/Table";
+import Table, { OrderChangeModel } from "components/table/Table";
 import {
   RenderData,
 } from "components/table/contracts/TableColumnProps";
@@ -67,11 +67,9 @@ const Products = (props: ProductsProps) => {
     data,
   };
 
-  async function handleOrder(
-    headerCellProps: TableHeaderCellProps,
-    order: Order
-  ) {
-    const { property } = headerCellProps;
+  async function handleOrder(model: OrderChangeModel) {
+    const { props, order } = model;
+    const { property } = props;
     const params = [Order.Asc, Order.Desc].includes(order)
       ? `?_sort=${property}&_order=${order}`
       : Order.Natural;
