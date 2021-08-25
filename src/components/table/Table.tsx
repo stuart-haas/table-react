@@ -21,6 +21,10 @@ export interface OrderChangeEvent {
   order: Order;
 }
 
+export interface SelectChangeEvent {
+  data: Array<any>;
+}
+
 export interface TableModel {
   primaryKey?: string;
   header?: TableHeaderModel;
@@ -32,8 +36,8 @@ export interface TableModel {
   attributes?: object | AttributesCallback;
   sort?: string;
   order?: Order;
-  onOrderChange?: (model: OrderChangeEvent) => void;
-  onSelectChange?: (data: Array<any>) => void;
+  onOrderChange?: (event: OrderChangeEvent) => void;
+  onSelectChange?: (event: SelectChangeEvent) => void;
 }
 
 const Table = (props: TableModel) => {
