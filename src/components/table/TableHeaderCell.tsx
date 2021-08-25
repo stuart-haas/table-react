@@ -19,13 +19,13 @@ export type TableHeaderCellProps = DefaultTableHeaderCellProps &
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
   const { sortable } = props;
-  const [sort, order, setOrder] = useContext(OrderContext);
+  const {sort, order, handleSetOrder} = useContext(OrderContext);
   const attributes = {
     ...getColumnAttributes(props),
     ...getAttributes(props.attributes),
   };
   return (
-    <th {...attributes} onClick={() => sortable && setOrder(props)}>
+    <th {...attributes} onClick={() => sortable && handleSetOrder && handleSetOrder(props)}>
       {getColumnLabel(props, sort, order)}
     </th>
   );

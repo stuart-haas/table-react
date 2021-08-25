@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const SelectedContext = createContext<any>([]);
+const SelectedContext = createContext<Array<any>>([]);
 
 export default SelectedContext;

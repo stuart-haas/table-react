@@ -11,10 +11,10 @@ import TableBodyProps from "./contracts/TableBodyProps";
 import TableHeaderSelect from "./TableHeaderSelect";
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
-import RowCheckboxContext from "./context/RowCheckboxContext";
+import RowCheckboxContext, { IRowCheckboxContextModel } from "./context/RowCheckboxContext";
 import OrderContext, { Order } from "./context/OrderContext";
 import { TableHeaderCellProps } from "./TableHeaderCell";
-import HeaderCheckboxContext from "./context/HeaderCheckboxContext";
+import HeaderCheckboxContext, { IHeaderCheckboxContextModel } from "./context/HeaderCheckboxContext";
 
 export interface TableProps {
   primaryKey?: string;
@@ -64,18 +64,20 @@ const Table = (props: TableProps) => {
     }
   }, [data, selected, headerSelectRef]);
 
-  function handleRowCheckbox(e: any, id?: any) {
-    if (e.target.checked) {
-      setSelected([...selected, id]);
+  function handleRowCheckbox(model: IRowCheckboxContextModel) {
+    const { event, key } = model;
+    if (event?.target.checked) {
+      setSelected([...selected, key]);
     } else {
-      setSelected(selected.filter((item: any) => item !== id));
+      setSelected(selected.filter((item: any) => item !== key));
     }
   }
 
-  function handleHeaderCheckbox(e: any, data?: any) {
-    if (e.target.checked) {
+  function handleHeaderCheckbox(model: IHeaderCheckboxContextModel) {
+    const { event, keys } = model;
+    if (event?.target.checked) {
       setSelected(
-        [...selected, ...data].filter(
+        [...selected, ...keys!].filter(
           (item: any, index: number, array: any) =>
             array.findIndex((e: any) => e === item) === index
         )
@@ -85,7 +87,7 @@ const Table = (props: TableProps) => {
     }
   }
 
-  function handleOrder(headerCellProps: TableHeaderCellProps) {
+  function handleSetOrder(headerCellProps: TableHeaderCellProps) {
     const { property } = headerCellProps;
     let currentOrder =
       order === Order.None
@@ -99,11 +101,11 @@ const Table = (props: TableProps) => {
   }
 
   return (
-    <PrimaryKeyContext.Provider value={primaryKey}>
+    <PrimaryKeyContext.Provider value={{primaryKey}}>
       <SelectedContext.Provider value={selected}>
-        <HeaderCheckboxContext.Provider value={handleHeaderCheckbox}>
-          <RowCheckboxContext.Provider value={handleRowCheckbox}>
-            <OrderContext.Provider value={[sort, order, handleOrder]}>
+        <HeaderCheckboxContext.Provider value={{ handleHeaderCheckbox }}>
+          <RowCheckboxContext.Provider value={{handleRowCheckbox}}>
+            <OrderContext.Provider value={{sort, order, handleSetOrder}}>
               <table {...getAttributes(props.attributes)}>
                 <thead {...getAttributes(props.header?.attributes)}>
                   <tr {...getAttributes(props.header?.row?.attributes)}>

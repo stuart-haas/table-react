@@ -1,5 +1,14 @@
-import { createContext } from "react";
+import { ChangeEvent, createContext } from "react";
 
-const HeaderCheckboxContext = createContext<any>(() => {});
+export interface IHeaderCheckboxContextModel {
+    event: ChangeEvent<HTMLInputElement>|undefined, 
+    keys: Array<string|number>;
+}
+
+export interface IHeaderCheckboxContext {
+    handleHeaderCheckbox: (model: IHeaderCheckboxContextModel) => void;
+}
+
+const HeaderCheckboxContext = createContext<Partial<IHeaderCheckboxContext>>({});
 
 export default HeaderCheckboxContext;

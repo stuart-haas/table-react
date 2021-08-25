@@ -1,5 +1,14 @@
-import { createContext } from "react";
+import { ChangeEvent, createContext } from "react";
 
-const RowCheckboxContext = createContext<any>(() => {});
+export interface IRowCheckboxContextModel {
+    event: ChangeEvent<HTMLInputElement>|undefined, 
+    key: string|number;
+}
+
+export interface IRowCheckboxContext {
+    handleRowCheckbox: (model: IRowCheckboxContextModel) => void;
+}
+
+const RowCheckboxContext = createContext<Partial<IRowCheckboxContext>>({});
 
 export default RowCheckboxContext;

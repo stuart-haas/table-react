@@ -1,5 +1,11 @@
 import { createContext } from "react";
 
-const PrimaryKeyContext = createContext<undefined|string>("id");
+export interface IPrimaryKeyContext {
+    primaryKey: string|undefined
+}
+
+const PrimaryKeyContext = createContext<Partial<IPrimaryKeyContext>>({
+    primaryKey: "id",
+});
 
 export default PrimaryKeyContext;

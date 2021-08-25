@@ -1,15 +1,18 @@
 import { createContext } from "react";
+import { TableHeaderCellProps } from "../TableHeaderCell";
+
+export interface IOrderContext {
+  sort: string|null;
+  order: Order;
+  handleSetOrder: (props: TableHeaderCellProps) => void;
+}
 
 export enum Order {
-    Asc = "asc",
-    Desc = "desc",
-    None = "",
-  }
+  Asc = "asc",
+  Desc = "desc",
+  None = "",
+}
 
-const OrderContext = createContext<any>({
-    sort: "",
-    order: Order.None,
-    setOrder: () => {}
-});
+const OrderContext = createContext<Partial<IOrderContext>>({});
 
 export default OrderContext;

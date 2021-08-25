@@ -31,7 +31,7 @@ export function getValue(data: any, property?: string) {
   }
 }
 
-export function getColumnLabel(column: TableColumnProps & TableHeaderProps, sort: any, order: Order) {
+export function getColumnLabel(column: TableColumnProps & TableHeaderProps, sort: any, order?: Order) {
   const { label, property, rows, columns, data, attributes } = column;
   if (label && typeof label === 'function') {
     return label({ property, rows, columns, data, attributes, sort, order });
