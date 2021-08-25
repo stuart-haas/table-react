@@ -1,16 +1,16 @@
-import React, { ChangeEvent, useContext } from "react";
-import RowCheckboxContext from "./context/RowCheckboxContext";
-import PrimaryKeyContext from "./context/PrimaryKeyContext";
-import SelectedContext from "./context/SelectedContext";
+import React, { ChangeEvent } from "react";
+import { useRowCheckboxContext } from "./context/RowCheckboxContext";
+import { usePrimaryKeyContext } from "./context/PrimaryKeyContext";
+import { useSelectedContext } from "./context/SelectedContext";
 
 export interface TableRowSelectProps {
   data?: any;
 }
 
 const TableRowSelect = (props: TableRowSelectProps) => {
-  const selected = useContext(SelectedContext);
-  const { primaryKey } = useContext(PrimaryKeyContext);
-  const { handleRowCheckbox } = useContext(RowCheckboxContext);
+  const selected = useSelectedContext();
+  const { primaryKey } = usePrimaryKeyContext();
+  const { handleRowCheckbox } = useRowCheckboxContext();
   const { data } = props;
   return (
     <td>

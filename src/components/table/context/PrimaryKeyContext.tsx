@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 export interface IPrimaryKeyContext {
     primaryKey: string|undefined
@@ -7,5 +7,7 @@ export interface IPrimaryKeyContext {
 const PrimaryKeyContext = createContext<Partial<IPrimaryKeyContext>>({
     primaryKey: "id",
 });
+
+export const usePrimaryKeyContext = () => useContext(PrimaryKeyContext);
 
 export default PrimaryKeyContext;

@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import OrderContext from "./context/OrderContext";
+import React from "react";
+import { useOrderContext } from "./context/OrderContext";
 import TableColumnProps from "./contracts/TableColumnProps";
 import {
   getAttributes,
@@ -19,7 +19,7 @@ export type TableHeaderCellProps = DefaultTableHeaderCellProps &
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
   const { sortable } = props;
-  const {sort, order, handleSetOrder} = useContext(OrderContext);
+  const {sort, order, handleSetOrder} = useOrderContext();
   const attributes = {
     ...getColumnAttributes(props),
     ...getAttributes(props.attributes),

@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { TableHeaderCellProps } from "../TableHeaderCell";
 
 export interface IOrderContext {
@@ -14,5 +14,7 @@ export enum Order {
 }
 
 const OrderContext = createContext<Partial<IOrderContext>>({});
+
+export const useOrderContext = () => useContext(OrderContext);
 
 export default OrderContext;
